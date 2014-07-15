@@ -1,0 +1,7 @@
+/doc/
+/css/*.css
+/js/Presenter.js
+/js/Presenter.min.js
+/libs/*
+/libs_extra/*
+/build/*

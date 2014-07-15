@@ -1,0 +1,62 @@
+/**
+* Overview mode with thumbnails of each slide
+*
+* @author Vincent Ceulemans
+*
+*/
+
+@media screen{
+    .slideDeck.overview{
+        padding: 1em; 
+        
+        .slide-wrapper{
+            float:left;
+            margin-left:10px; 
+            margin-top: 20px;
+            display: block;
+        }
+
+        .slide-wrapper .slide{
+            position: relative;
+            display: block; 
+            opacity:1; 
+            left: 0;
+            top: 0; 
+            border: 1.5em solid transparent; 
+            border-radius: 15px; 
+        }
+
+        .slide-wrapper .slide:hover{
+            border-color: #EFEFEF; 
+            box-shadow: 0 0 100px #FFF;
+        }
+
+        .slide-wrapper.current .slide{
+            border-color: #00FF00; 
+            box-shadow: 0 0 100px #0F0;
+        }
+
+        .slide-wrapper .slide:after{
+            counter-increment: slideCounter; 
+            content: counter(slideCounter); 
+
+            position: absolute; 
+            top:0; 
+            left:0; 
+            width: 100%; 
+            height: 100%;
+            padding: 0.20em;
+            background-color: rgba(0,0,0,0.2); 
+
+            /*Set text*/
+            font-size: 10em; 
+            font-family: "Arial"; 
+            color: #FFF; 
+            text-shadow: 0 5px 5px #FFF; 
+        }
+    }
+
+    .slideDeck.overview ~ #ticker{
+        display: none; 
+    }
+}

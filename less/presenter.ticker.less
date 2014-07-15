@@ -1,0 +1,49 @@
+/**
+* Styling for ticker. 
+*
+* @author Vincent Ceulemans
+*
+* <div id="ticker">
+*     <ul id="ticks">
+*         <li><span class="tick"></span></li>
+*         <li><span class="tick"></span></li>
+*         <li><span class="tick"></span></li>
+*     </ul>
+* </div>
+*
+*/
+
+@media screen{
+    #ticker{
+        position: fixed; 
+        display: block; 
+        bottom:10px; 
+        z-index:100;  
+    }
+
+    #ticker ul{
+        list-style: none; 
+    }
+
+    #ticker.left{
+        right:auto;
+        left:0; 
+    }
+
+    #ticker.right{
+        left:auto; 
+        right:50px; 
+    }
+
+    #ticker .tick{
+        display: block; 
+        background: #A70B37; 
+        height: 10px;
+        width: 10px;
+    }
+
+    #ticker.large .tick{
+        width: 40px; 
+        height: 40px; 
+    }
+}

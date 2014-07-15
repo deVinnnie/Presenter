@@ -1,0 +1,117 @@
+/**
+* Generic Slidedeck Styling. 
+*
+* @author Vincent Ceulemans
+*
+*    <div class="slideDeck">
+*       <section class="slide">
+*           ...
+*           <ul>
+*               <li class="step">Stap 1</li>
+*               <li class="step">Stap 2</li>
+*               <li class="step">Stap 3</li>
+*           </ul>
+*          ...
+*                
+*           <div class="notes">
+*           </div>
+*       </section>
+*        ...
+*   </div>
+*
+*/
+@import "lesshat.less";
+@import "presenter.slides.less"; 
+@import "presenter.ticker.less"; 
+@import "presenter.curtain.less"; 
+@import "presenter.notes.less"; 
+@import "presenter.overview.less"; 
+@import "presenter.master.less"; 
+
+@media screen{
+    .slide {
+        width: 1280px;
+        height: 720px; 
+    }
+
+    /* General
+    ---------------*/
+    html, body{
+        height:100%;  
+        padding:0;
+        margin: 0; 
+    }
+
+    html{
+        overflow:hidden;
+    }
+
+    body{
+        cursor: none; 
+        font-size: 100%; 
+        overflow-x: hidden;
+        overflow-y: auto;
+        counter-reset: slideCounter; 
+    }
+
+    .cursor-visible{
+        cursor: auto; 
+    }
+
+    .slideDeck{
+        padding: 0; 
+        width: 100%; 
+        height: 100%;  
+        background: #000; 
+    }
+
+    /* Transitioning between steps.  
+    ---------------*/
+    .step{
+        opacity:0;  
+    }
+
+    .step, .step-done{
+        .transition(opacity 0.5s linear); 
+    }
+    
+    /* Splashscreen
+    ---------------*/
+    #splash{
+        position: absolute; 
+        width:100%; 
+        height: 100%; 
+        line-height: 500px; 
+        top: 0; 
+        left: 0; 
+        z-index: 100; 
+        background: #000; 
+        color: #FFF;
+        font-size: 40px; 
+        text-align: center;  
+    }
+    
+     /* Helpscreen
+    ---------------*/
+    #help{
+        position: fixed; 
+        width:100%; 
+        top: 50px;
+        z-index: 99; 
+        background: rgba(0,0,0,0.5); 
+        color: #FFF;
+        text-align: center;  
+        padding: 10px; 
+    }
+}
+
+@media print{
+    *{
+        color: #000; 
+    }
+
+    .slide{
+        width: 90%;
+        height: 90%;
+    }
+}

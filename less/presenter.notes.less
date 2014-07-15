@@ -1,0 +1,56 @@
+/**
+* Presentation Notes styling
+*
+* @author Vincent Ceulemans
+*
+*
+* <section class="slide">
+*       <div class="notes">
+* </section>
+*
+* <div id="notes-display">
+*
+* </div>
+*
+*/
+
+@media screen{
+    .notes{
+        display: none; 
+    }
+
+    #notes-display{
+        color: #FFF; 
+        font-size: 75%;
+        position: fixed; 
+        bottom: -55%; 
+        height: 55%; 
+        width: 98%; 
+
+        background-color: #000;
+        background-color: rgba(0,0,0,0.7); 
+        .transition(bottom 0.3s ease-in); 
+        padding: 0 1em; 
+        overflow-y: scroll; 
+        cursor: auto;
+
+        ul{
+            margin-left:0; 
+            padding-left:0; 
+        }
+
+        &.visible{
+            bottom: 0; 
+        }
+    }
+}
+
+@media print{
+    .notes{
+        color: #757575; 
+    }
+    
+    #notes-display{
+         display: none; 
+    }
+}

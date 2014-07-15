@@ -1,0 +1,13 @@
+{
+  "name": "Presenter",
+  "version": "0.1",
+  "authors": [
+    "Vincent Ceulemans"
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+    "jquery": "1.11.0",
+    "progress.js": "*", 
+    "postal.js":"*"
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <title>Example</title>
+        <link rel="stylesheet" type="text/css" href="css/presenter.css"/>
+        <link rel="stylesheet" type="text/css" href="css/presenter.theme.css"/>
+
+        <meta charset="UTF-8">
+        <meta name="author" content="Vincent Ceulemans">
+        <meta name="robots" content="NONE">
+
+        <style id="style"></style>
+        
+        <style>
+            h1{
+                text-align: center;
+                font-size: 3.5em;
+            }
+
+            h2{
+                text-align: center;
+                font-size: 3em;
+            }
+            
+            .slide{
+                background: #FFF;
+                color: #010101; 
+            }
+
+            .progressjs-inner{
+                height: 5px;
+                box-shadow: 0 0 0.10em 0.10em #29d;
+            }
+        </style>
+      
+        <link rel="stylesheet" type="text/css" href="libs/progress.js/minified/progressjs.min.css"/>
+        <script type="text/javascript" src="libs/progress.js/minified/progress.min.js"></script>
+        <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="libs/underscore/underscore-min.js"></script>
+        <script type="text/javascript" src="libs/postal.js/lib/postal.min.js"></script>
+        
+        <script type="text/javascript" src="build/presenter.js"></script>
+       
+        <script type="text/javascript">
+            window.onload = function() {
+                   Presenter.init({
+                        "thumbnail_width": 300, 
+                        "ticker-position": "right", 
+                        "scale": 0.95 
+                    });
+            };
+        </script>
+    </head>
+
+    <body>
+        <div class="slideDeck cursorVisible">
+            <section>
+                <h1>Title</h1>
+                <div class="notes">
+                    <p>Notities</p>
+                </div>
+            </section>
+
+            <section>
+                <div class="notes">
+                    <p>Notities</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Subtitle</h2>
+                <p class="step">Stap 1</p>
+                <p class="step">Stap 2</p>
+                <p class="step">Stap 3</p>
+            </section>
+        </div>
+    </body>
+</html>
