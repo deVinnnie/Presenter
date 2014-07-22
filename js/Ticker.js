@@ -63,10 +63,12 @@ var Presenter = Presenter || {};
      * @method decrease
      */
     Ticker.prototype.decrease = function() {
-        $("#ticks li:last-child").hide(
+        var $lastChild = $("#ticks li").not(".hidden").last(); 
+        $lastChild.addClass("hidden"); 
+        $lastChild.hide(
                 'fast', 
                 function(){ 
-                    $("#ticks li:last-child").remove(); 
+                    $lastChild.remove(); 
                 }
         );
     };
