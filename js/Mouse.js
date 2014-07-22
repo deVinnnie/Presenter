@@ -17,12 +17,12 @@
     {
         console.log("[Mouse] Enabled");
 
-         if (window.addEventListener) {    // all browsers except IE before version 9
+        if (window.addEventListener) {    // all browsers except IE before version 9
             // Internet Explorer, Opera, Google Chrome and Safari
-            window.addEventListener("mousewheel", Mouse.scrollHandler, false);
+            document.querySelector(".slideDeck").addEventListener("mousewheel", Mouse.scrollHandler, false);
             
             // Firefox
-            window.addEventListener("DOMMouseScroll", Mouse.scrollHandler, false);
+            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll", Mouse.scrollHandler, false);
         }
     };
 
