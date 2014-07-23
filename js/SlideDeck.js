@@ -12,7 +12,7 @@ var Presenter = Presenter || {};
      * @class SlideDeck
      * @constructor
      * @param {array} slides List of slides in the deck.
-     * @param {int} currentSlide The first slide to show.
+     * @param {int} currentSlide The first slide to show. (Starts at 1)
      */
     function SlideDeck(slides, currentSlide) {
         this.slides = slides;
