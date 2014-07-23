@@ -162,16 +162,16 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.next = function() {
         var nSteps = this.getCurrentSlide().querySelectorAll(".step").length;
-        if (nSteps === 0)
+        if (nSteps != 0)
+        {
+            this.stepManager.nextStep();
+            this.channel.publish("step-changed", {type: "next"});
+        }
+        else if(this.currentSlide+1 <= this.nSlides)
         {
             this.channel.publish("pre-slide-changed");
             this.nextSlide();
             this.channel.publish("slide-changed", {type: "next", slide: this.currentSlide});
-        }
-        else
-        {
-            this.stepManager.nextStep();
-            this.channel.publish("step-changed", {type: "next"});
         }
     };
 

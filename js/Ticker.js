@@ -15,10 +15,6 @@ var Presenter = Presenter || {};
      */
     function Ticker(deck) {
         this.deck = deck;
-
-        var channel = postal.channel("slides");
-        channel.subscribe("slide-changed", this.flush).withContext(this);
-        channel.subscribe("slide-changed", this.renew).withContext(this);
     }
 
     /**
@@ -54,6 +50,18 @@ var Presenter = Presenter || {};
         
         for(var i = 0; i < deltaSteps; i++){
             callback.apply(this);  
+        }
+    };
+
+    /**
+     * Set Ticker to a specific count. 
+     * 
+     * @method set
+     */
+    Ticker.prototype.set = function(nSteps) {
+        this.flush(); 
+        for(var i = 0; i < nSteps; i++){
+            this.increase();   
         }
     };
         

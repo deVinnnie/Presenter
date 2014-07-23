@@ -7,6 +7,15 @@ var Presenter = Presenter || {};
     "use strict";
     /**
      * Controls the visibility and transitions of steps. 
+     *
+     *  Example Usage
+     *  <section>
+     *      <ul>
+     *          <li class="step" data-step-group="1"></li>
+     *          <li class="step" data-step-group="1"></li>
+     *          <li class="step" data-step-group="2"></li>
+     *          <li class="step"></li>
+     *  </section>
      * 
      * @class StepManager
      * @constructor
@@ -14,9 +23,20 @@ var Presenter = Presenter || {};
      */
     function StepManager(deck) {
         this.deck = deck; 
-
+        this.groups = [];
+        this.current = -1;
+         
         var channel = postal.channel("slides");
         channel.subscribe("slide-changed", this.reset).withContext(this);
+    }
+
+    StepManager.prototype.setData = function(){
+        if(this.current < 0 || this.current >= this.groups.length){
+            this.deck.getCurrentSlide().dataset.currentGroup = null; 
+        }
+        else{
+            this.deck.getCurrentSlide().dataset.currentGroup = this.groups[this.current].name; 
+        }
     }
  
     /**
@@ -25,20 +45,20 @@ var Presenter = Presenter || {};
      * @method nextStep
      */
      StepManager.prototype.nextStep = function() {
-        var currentStep = this.deck.getCurrentSlide().querySelectorAll(".current-step");
-        
-        if(currentStep.length >= 1){
-            currentStep[0].classList.remove("current-step");  
+        if(this.current >= 0 && this.current < this.groups.length){
+            $(this.groups[this.current].steps).removeClass("current-step");
+        }   
+
+        if(this.current < this.groups.length-1){
+            this.current++;
+            this.deck.ticker.decrease();
+            
+            $(this.groups[this.current].steps).removeClass("step");
+            $(this.groups[this.current].steps).addClass("current-step");
+            $(this.groups[this.current].steps).addClass("step-done");
         }
-        
-        var steps = this.deck.getCurrentSlide().querySelectorAll(".step"); //steps contains a list of all steps to come. 
-        if (steps.length >= 1) {
-            var nextStep = steps[0];
-            nextStep.classList.remove("step");
-            nextStep.classList.add("current-step");
-            nextStep.classList.add("step-done");
-        }
-        this.deck.ticker.decrease();
+
+        this.setData(); 
     };
 
     /** 
@@ -47,36 +67,75 @@ var Presenter = Presenter || {};
      * @method previousStep
      */
     StepManager.prototype.previousStep = function() {
-        var currentStep = this.deck.getCurrentSlide().querySelectorAll(".current-step");
-        
-        if(currentStep.length >= 1){
-            currentStep[0].classList.remove("current-step");  
-        }
+        if(this.current >= 0 && this.current < this.groups.length){
+            $(this.groups[this.current].steps).removeClass("current-step");
+            $(this.groups[this.current].steps).removeClass("step-done");
+            $(this.groups[this.current].steps).addClass("step"); 
 
-        //Get the last step.
-        var stepsDone = this.deck.getCurrentSlide().querySelectorAll(".step-done");
-        var lastStep = stepsDone[stepsDone.length - 1];
-        
-        lastStep.classList.remove("step-done");
-        lastStep.classList.add("step");
-        
-        if(stepsDone.length >=2){
-            stepsDone[stepsDone.length-2].classList.add("current-step"); 
+            this.current--;
+            this.deck.ticker.increase();
+            
+            if(this.current >= 0){
+                $(this.groups[this.current].steps).addClass("current-step");
+            }
         }
-        
-        this.deck.ticker.increase();
+        this.setData(); 
     };
 
     /**
      * 
      * @method reset
      */
-    StepManager.prototype.reset = function() {
-        var steps = this.deck.getCurrentSlide().querySelectorAll(".step-done");
-        for (var i = 0; i < steps.length; i++) {
-            steps[i].classList.remove("step-done");
-            steps[i].classList.add("step");
+    StepManager.prototype.reset = function(){
+        var steps = this.deck.getCurrentSlide().querySelectorAll(".step, .step-done");
+        this.groups = [];
+        this.current = -1;
+        
+        for(var i=0; i< steps.length; i++){
+            var step = steps[i];
+            var group = step.dataset.stepGroup; //data-step-group = dataset.stepGroup!!!
+            var index;
+            
+            if(typeof group != 'undefined'){
+                var found = false;
+                var searchIndex = 0;
+                while(!found && searchIndex < this.groups.length){
+                    if(this.groups[searchIndex].name == group){
+                        var new_group = this.groups[searchIndex];
+                        new_group.steps.push(step);
+                        index = searchIndex; 
+                        found = true; 
+                    }
+                    else{
+                        searchIndex++; 
+                    }
+                }
+
+                if(!found){
+                    var new_group = {};
+                    new_group.name = group;
+                    new_group.steps = [];
+                    new_group.steps[0]= step;
+                    this.groups.push(new_group);
+                    index = this.groups.length-1; 
+                }
+            }
+            else{
+                var new_group = {};
+                new_group.name = null;  
+                new_group.steps = [];
+                new_group.steps[0] = step; 
+                this.groups.push(new_group);
+                index = this.groups.length-1; 
+            }
+
+            if($(step).hasClass("current-step")){
+                this.current = index; 
+            }
         }
+
+        this.deck.ticker.set(this.groups.length-(this.current+1));
+        this.setData(); 
     };
         
     namespace.StepManager = StepManager;
