@@ -41,8 +41,8 @@
     Mouse.prototype.disable = function()
     {
         console.log("[Mouse] Disabled"); 
-        window.removeEventListener("mousewheel", Mouse.scrollHandler);
-        window.removeEventListener("DOMMouseScroll",  Mouse.scrollHandler);
+        document.querySelector(".slideDeck").removeEventListener("mousewheel", Mouse.scrollHandler);
+        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  Mouse.scrollHandler);
     };
 
     //Make constructor visible in global space. 
