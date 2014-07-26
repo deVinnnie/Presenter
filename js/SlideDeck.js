@@ -54,24 +54,17 @@ var Presenter = Presenter || {};
     /*
      Private functions
      */
-    function playVideo(video) {
-        video.play();
-        video.onclick = pauseVideo_clickHandler;
+    function toggleVideo(e) {
+        var video = e.target; 
+        if(video.paused){
+            video.play();
+        }
+        else{
+            video.pause();
+        }
     }
 
-    function pauseVideo(video) {
-        video.pause();
-        video.onclick = playVideo_clickHandler;
-    }
-
-    function playVideo_clickHandler(e) {
-        playVideo(e.target);
-    }
-
-    function pauseVideo_clickHandler(e) {
-        pauseVideo(e.target);
-    }
-
+    //Public Functions
     SlideDeck.prototype.SlideInit = function(){
         var init = $(this.getCurrentSlide()).attr("init");
         if(typeof init != 'undefined'){
@@ -86,8 +79,6 @@ var Presenter = Presenter || {};
         }
     }
     
-
-    //Public Functions
     /**
      * Update URL in the adressbar to the current position in the slidedeck.  
      * 
@@ -297,8 +288,8 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.autoPlayVideo = function() {
         var currentSlide = this.getCurrentSlide();
-        if (currentSlide.classList.contains("video") && currentSlide.querySelectorAll("video")[0] !== null) {
-            playVideo(currentSlide.querySelectorAll("video")[0]);
+        if (currentSlide.classList.contains("video") && currentSlide.querySelector("video") !== null) {
+            currentSlide.querySelector("video").play(); 
         }
     };
 
@@ -310,9 +301,8 @@ var Presenter = Presenter || {};
     SlideDeck.prototype.autoStopVideo = function() {
         //If the current slide has a video, stop playing the video.
         var currentSlide = this.getCurrentSlide();
-        if (currentSlide.classList.contains("video") 
-                && currentSlide.querySelectorAll("video")[0] !== null) {
-            pauseVideo(currentSlide.querySelectorAll("video")[0]);
+        if (currentSlide.classList.contains("video") && currentSlide.querySelector("video") !== null) {
+            currentSlide.querySelector("video").pause(); 
         }
     };
 
@@ -382,7 +372,7 @@ var Presenter = Presenter || {};
     SlideDeck.prototype.initVideos = function() {
         var videos = document.getElementsByTagName('video');
         for (var i = 0; i < videos.length; i++) {
-            videos[i].addEventListener('click', playVideo_clickHandler, false);
+            videos[i].addEventListener('click', toggleVideo, false);
         }
     };
     
