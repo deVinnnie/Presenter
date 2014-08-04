@@ -19,16 +19,28 @@
 
         if (window.addEventListener) {    // all browsers except IE before version 9
             // Internet Explorer, Opera, Google Chrome and Safari
-            document.querySelector(".slideDeck").addEventListener("mousewheel", Mouse.scrollHandler, false);
+            document.querySelector(".slideDeck").addEventListener("mousewheel",
+                function(e){
+                    Mouse.scrollHandler(e.wheelDelta);
+                },
+            false);
             
             // Firefox
-            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll", Mouse.scrollHandler, false);
+            // Scroll information is stored in e.detail. Is '3' for scrollDown and '-3' for scrollUp. 
+            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll",
+                function(e){
+                    Mouse.scrollHandler(-e.detail);  
+                },
+            false);
         }
     };
 
-    Mouse.scrollHandler = function(e){
+    /**
+     * @param wheelData Negative number on scrollUp, positive number on scrollDown. 
+     */ 
+    Mouse.scrollHandler = function(wheelDelta){
         var action = ""; 
-        if(e.wheelDelta < 0){
+        if(wheelDelta < 0){
             action = "next"; 
         }
         else{
