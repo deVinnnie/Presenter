@@ -39,6 +39,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+        yuidoc: {
+            compile: {
+                name: '<%= pkg.name %>',
+                description: '<%= pkg.description %>',
+                version: '<%= pkg.version %>',
+                options: {
+                    paths: 'js/',
+                    outdir: 'doc/'
+                }
+            }
+        },
 
         clean: ["css/*", "build/*", "doc/*"]
     });
@@ -47,6 +58,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
     //Set Default task.
     grunt.registerTask('default', 'concat');

@@ -6,6 +6,7 @@
     "grunt-contrib-concat" : "*", 
     "grunt-contrib-less" : "*",
     "grunt-contrib-uglify" : "*",
-    "grunt-contrib-clean" : "*"
+    "grunt-contrib-clean" : "*",
+    "grunt-contrib-yuidoc" : "*"
   }
 }
