@@ -5,9 +5,11 @@
 *
 *
 * <section class="slide">
+*       <!--storage div nested within slide-->
 *       <div class="notes">
 * </section>
 *
+* <!--Visible notes. Displays the notes from the current slide.-->
 * <div id="notes-display">
 *
 * </div>
@@ -16,41 +18,42 @@
 
 @media screen{
     .notes{
-        display: none; 
+        display: none;
     }
 
     #notes-display{
-        color: #FFF; 
+        color: #FFF;
         font-size: 75%;
-        position: fixed; 
-        bottom: -55%; 
-        height: 55%; 
-        width: 98%; 
+        position: fixed;
+        bottom: -55%;
+        height: 55%;
+        width: 98%; /*Make width slightly smaller than 100% to make room for scrollbar*/
 
         background-color: #000;
-        background-color: rgba(0,0,0,0.7); 
-        .transition(bottom 0.3s ease-in); 
-        padding: 0 1em; 
-        overflow-y: scroll; 
+        background-color: rgba(0,0,0,0.7);
+        .transition(bottom 0.3s ease-in);
+        padding: 0 1em;
+        overflow-y: scroll;
         cursor: auto;
 
         ul{
-            margin-left:0; 
-            padding-left:0; 
+            margin-left:0;
+            padding-left:0;
         }
 
         &.visible{
-            bottom: 0; 
+            /*Move into view.*/
+            bottom: 0;
         }
     }
 }
 
 @media print{
     .notes{
-        color: #757575; 
+        color: #757575;
     }
-    
+
     #notes-display{
-         display: none; 
+         display: none;
     }
 }

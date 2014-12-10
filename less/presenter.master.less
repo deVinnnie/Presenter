@@ -1,5 +1,5 @@
 /**
-* Styling for master mode. 
+* Styling for master mode.
 *
 * @author Vincent Ceulemans
 *
@@ -9,47 +9,43 @@
         /* Always show the notes-display.*/
         #notes-display{
             bottom: 0;
-            height:50%; 
+            height:50%;
         }
 
         .pastSlide,
         .farPastSlide,
         .farFutureSlide{
-            display: none; 
+            display: none;
         }
 
         .currentSlide,
         .futureSlide{
-            display:block; 
+            display:block;
         }
 
-        /*Place currrentSlide on the lefthand side of the viewscreen*/
+        /*Place a thumbnail of the currrent Slide on the lefthand side of the viewscreen*/
         .currentSlide{
             border: 3px solid #51A9EE;
             box-shadow: 0 0 30px #51A9EE;
-            -webkit-transform: scale(0.5) translate3d(0,0,0);
-            transform: scale(0.5) translate3d(0,0,0);
+            .transform(scale(0.5) translate3d(0,0,0));
+            .transition(none);
             opacity: 1;
-            transition: none;
-            -webkit-transition:none;
-            left:30px; 
+            left:30px;
         }
 
-        /*Place next Slide on the righthand side of the viewscreen); */
+        /*Place a thumbnail of the next Slide on the righthand side of the viewscreen); */
         .futureSlide{
-            -webkit-transform: scale(0.5) translate3d(1300px,0,0);
-            transform: scale(0.5) translate3d(1300px,0,0);
+            .transform(scale(0.5) translate3d(1300px,0,0));
+            .transition(none);
             opacity: 1;
-            transition: none;
-            -webkit-transition: none;
             left:0;
-            right:30px; 
+            right:30px;
         }
 
         /* Make upcoming steps translucent instead of hidden. */
         .step{
-            opacity: 0.5; 
-            color: #EEE; 
+            opacity: 0.5;
+            color: #EEE;
         }
     }
 }

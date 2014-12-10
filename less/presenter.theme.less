@@ -1,42 +1,42 @@
 /**
-* Custom Slidedeck Styling. 
+* Additional User Defined Slidedeck Styling.
 *
 * @author Vincent Ceulemans
 *
 */
-@import "lesshat.less"; 
+@import "lesshat.less";
 
 @media screen{
     .slide{
         opacity: 0;
-        .transition-property(transform); 
+        .transition-property(transform);
         .transition-duration(0.5s);
-        .transition-timing-function(linear); 
+        .transition-timing-function(linear);
     }
 
     .currentSlide, .pastSlide, .farPastSlide, .futureSlide, .farFutureSlide{
-        display: block; 
+        display: block;
         opacity: 0.8;
     }
 
     .slide.currentSlide{
-        opacity: 1; 
+        opacity: 1;
     }
 
     .farPastSlide{
-        .transform(translate3d(-2600px,0,0)); 
+        .transform(translate3d(-2600px,0,0));
     }
 
     .pastSlide{
-        .transform(translate3d(-1300px,0,0)); 
+        .transform(translate3d(-1300px,0,0));
     }
 
     .currentSlide{
-        .transform(translate3d(0,0,0)); 
+        .transform(translate3d(0,0,0));
     }
 
     .futureSlide{
-        .transform(translate3d(1300px,0,0)); 
+        .transform(translate3d(1300px,0,0));
     }
 
     .farFutureSlide{

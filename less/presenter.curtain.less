@@ -1,29 +1,29 @@
 /**
-* Curtain: conceals the slide contents. 
+* Curtain: conceals the slide contents with a solid coloured div.
 *
 * @author Vincent Ceulemans
 *
-* Curtain open: 
+* Curtain open:
 * <div id="curtain"></div>
 *
-* Curtain closed: 
+* Curtain closed:
 * <div id="curtain" class="closed"></div>
 */
 @media screen{
     #curtain{
-        display: block; 
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%; 
-        .transition(opacity 0.5s linear); 
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        .transition(opacity 0.5s linear);
         z-index: -10;
-        opacity:0; 
-    }
+        opacity:0;
 
-    #curtain.closed{
-        z-index: 20;
-        opacity: 1.0; 
+        &.closed{
+            z-index: 20;
+            opacity: 1.0;
+        }
     }
 }

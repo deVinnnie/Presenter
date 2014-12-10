@@ -1,5 +1,5 @@
 /**
-* Styling for ticker. 
+* Styling for ticker.
 *
 * @author Vincent Ceulemans
 *
@@ -15,35 +15,36 @@
 
 @media screen{
     #ticker{
-        position: fixed; 
-        display: block; 
-        bottom:10px; 
-        z-index:100;  
-    }
+        position: fixed;
+        display: block;
+        bottom:10px;
+        z-index:100;
 
-    #ticker ul{
-        list-style: none; 
-    }
+        ul{
+            list-style: none;
+        }
 
-    #ticker.left{
-        right:auto;
-        left:0; 
-    }
+        &.left{
+            right:auto;
+            left:0;
+        }
 
-    #ticker.right{
-        left:auto; 
-        right:50px; 
-    }
+        &.right{
+            left:auto;
+            right:50px;
+        }
 
-    #ticker .tick{
-        display: block; 
-        background: #A70B37; 
-        height: 10px;
-        width: 10px;
-    }
+        & .tick{
+            margin-top: 0.5em;
+            display: block;
+            background: #A70B37;
+            height: 10px;
+            width: 10px;
+        }
 
-    #ticker.large .tick{
-        width: 40px; 
-        height: 40px; 
+        &.large .tick{
+            width: 40px;
+            height: 40px;
+        }
     }
 }

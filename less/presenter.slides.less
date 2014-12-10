@@ -6,59 +6,62 @@
 * <section class="slide">
 *       ....
 * </section>
-* 
+*
 */
 
 @media screen{
     .slide {
-        display: none; 
+        width: 1280px;
+        height: 720px;
+        display: none;
         position: absolute;
-        overflow: hidden; 
-        margin: 0 auto; 
+        overflow: hidden;
+        margin: 0 auto;
 
         .transform-origin(0 0);
-        .box-sizing(border-box); 
+        .box-sizing(border-box);
         background-clip: padding-box;
         background-repeat: no-repeat;
     }
 
     .slide.transparent{
-        background: transparent; 
+        background: transparent;
     }
 
-    /*Display videos or images in the center of the slide and make the background black.*/ 
-    .slide.video, 
-    .slide.image, 
-    .slide.center, 
+    /*Display videos or images in the center of the slide and make the background black.*/
+    .slide.video,
+    .slide.image,
+    .slide.center,
     .slide.blank{
-        background: #000; 
+        background: #000;
         padding: 0;
     }
 
     .slide.video video{
         display: block;
-        height: 100%; 
-        margin: 0 auto; 
+        height: 100%;
+        max-width: 100%;
+        margin: 0 auto;
     }
 
     .slide.image img{
-        margin-top:0; 
-        margin-bottom: 0; 
+        margin-top:0;
+        margin-bottom: 0;
     }
-    
+
     .currentSlide, .pastSlide, .farPastSlide, .futureSlide, .farFutureSlide{
-        display: block; 
+        display: block;
     }
 }
 
 @media print{
     .slide{
-        border: 0.2em solid black; 
-        background: none; 
-        min-height: 100vh; 
+        border: 0.2em solid black;
+        background: none;
+        min-height: 100vh;
     }
 
     img{
-        max-width: 100%;  
+        max-width: 100%;
     }
 }
