@@ -1,4 +1,4 @@
-/**  
+/**
  * @module Presenter
  * @author Vincent Ceulemans
  */
@@ -8,7 +8,7 @@ var Presenter = Presenter || {};
     "use strict";
     /**
      * SlideDeck
-     *  
+     *
      * @class SlideDeck
      * @constructor
      * @param {array} slides List of slides in the deck.
@@ -19,12 +19,12 @@ var Presenter = Presenter || {};
         this.nSlides = this.slides.length;
         this.currentSlide = currentSlide;
         this.pointer = false;
-        this.ticker = new global.Presenter.Ticker(this); 
+        this.ticker = new global.Presenter.Ticker(this);
         this.stepManager = new global.Presenter.StepManager(this);
-    
+
         this.initProgressBar();
-        this.initVideos(); 
-        
+        this.initVideos();
+
         this.channel = postal.channel("slides");
 
         /*Actions done before slide changes*/
@@ -44,10 +44,10 @@ var Presenter = Presenter || {};
 
     /*Static*/
     SlideDeck.SLIDE_STATES = [
-        "farPastSlide", 
-        "pastSlide", 
-        "currentSlide", 
-        "futureSlide", 
+        "farPastSlide",
+        "pastSlide",
+        "currentSlide",
+        "futureSlide",
         "farFutureSlide"
     ];
 
@@ -55,7 +55,7 @@ var Presenter = Presenter || {};
      Private functions
      */
     function toggleVideo(e) {
-        var video = e.target; 
+        var video = e.target;
         if(video.paused){
             video.play();
         }
@@ -78,10 +78,10 @@ var Presenter = Presenter || {};
             window[destroy]();
         }
     }
-    
+
     /**
-     * Update URL in the adressbar to the current position in the slidedeck.  
-     * 
+     * Update URL in the adressbar to the current position in the slidedeck.
+     *
      * @method updateLocationHash
      */
     SlideDeck.prototype.updateLocationHash = function() {
@@ -95,27 +95,27 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.updateProgressBar = function(){
         var progressPercentage = this.currentSlide/this.nSlides*100; //Decrease by a small amount so that the variable doesn't become 1.0, as that would make the bar disappear.
-        progressJs().set(progressPercentage); //Decrease the progressbar with 1% once every 0.01 * interval. 
+        progressJs().set(progressPercentage); //Decrease the progressbar with 1% once every 0.01 * interval.
     }
 
     SlideDeck.prototype.initProgressBar = function(){
-        progressJs().start(); 
+        progressJs().start();
     };
 
     /**
-     * Returns the slide object for the given slide number. 
-     * 
+     * Returns the slide object for the given slide number.
+     *
      * @method getSlide
      * @param {int} slideNumber
-     * @return {htmlelement} The corresponding slide. 
+     * @return {htmlelement} The corresponding slide.
      */
     SlideDeck.prototype.getSlide = function(slideNumber) {
         return this.slides[slideNumber - 1];
     };
 
     /**
-     * Returns the current slide. 
-     * 
+     * Returns the current slide.
+     *
      * @method getCurrentSlide
      * @return {htmlelement} The current slide.
      */
@@ -124,18 +124,18 @@ var Presenter = Presenter || {};
     };
 
     /**
-     * Returns the sequence number of the given slide. 
-     * 
+     * Returns the sequence number of the given slide.
+     *
      * @method getSlideNmb
      * @return {int} The sequence number.
      */
     SlideDeck.prototype.getSlideNmb = function(slide) {
-        var found = false; 
+        var found = false;
         var i = 0;
         while (i < this.slides.length && found === false) {
             if (this.slides[i] === slide) {
                 found = true;
-            } 
+            }
             else {
                 i++;
             }
@@ -145,10 +145,10 @@ var Presenter = Presenter || {};
 
     /**
      * Go to next item (Slide or step)
-     * 
+     *
      * Go to the next step if there are remaining steps on the current slide.
      * If no steps remain, then the next slide is shown.
-     * 
+     *
      * @method next
      */
     SlideDeck.prototype.next = function() {
@@ -170,7 +170,7 @@ var Presenter = Presenter || {};
      * Go to previous item (Slide or step)
      *
      * Go to the previous slide if no steps are visible on the current slide, otherwise the previous step is shown.
-     * 
+     *
      * @method previous
      */
     SlideDeck.prototype.previous = function() {
@@ -184,12 +184,12 @@ var Presenter = Presenter || {};
             this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
         }
     };
-    
+
     /**
-     * Goto to the specified Slide using the Id of the slide. 
-     * 
-     * @method gotoById 
-     * @param {string} id Id of the slide. 
+     * Goto to the specified Slide using the Id of the slide.
+     *
+     * @method gotoById
+     * @param {string} id Id of the slide.
      */
     SlideDeck.prototype.gotoById = function(id) {
         this.channel.publish("pre-slide-changed");
@@ -206,15 +206,15 @@ var Presenter = Presenter || {};
         }
         this.channel.publish("slide-changed", {type: "goto", slide: this.currentSlide});
     };
-    
+
     /**
-     * Goto to the specified Slide using the slide number. 
-     * 
-     * @method gotoByNumber 
-     * @param {int} n The number/order of the slide in the slidedeck. 
+     * Goto to the specified Slide using the slide number.
+     *
+     * @method gotoByNumber
+     * @param {int} n The number/order of the slide in the slidedeck.
      */
     SlideDeck.prototype.gotoByNumber = function(n){
-        this.currentSlide = n; 
+        this.currentSlide = n;
         var t = 0;
         for (var i = this.currentSlide - 2; i <= this.currentSlide + 2; i++, t++) {
             this.updateSlide(i, Presenter.SlideDeck.SLIDE_STATES[t]);
@@ -224,7 +224,7 @@ var Presenter = Presenter || {};
 
     /**
      * Go to next slide.
-     * 
+     *
      * @method nextSlide
      */
     SlideDeck.prototype.nextSlide = function() {
@@ -232,7 +232,7 @@ var Presenter = Presenter || {};
             //Update slides to new state.
             var slideN = this.currentSlide - 2;
             if (this.getSlide(slideN)) {
-                this.clear(slideN); 
+                this.clear(slideN);
             }
 
             slideN++;
@@ -240,13 +240,13 @@ var Presenter = Presenter || {};
                 this.updateSlide(slideN, SlideDeck.SLIDE_STATES[i]);
             }
 
-            this.currentSlide++;        
+            this.currentSlide++;
         }
     };
 
     /**
      * Go to previous slide.
-     * 
+     *
      * @method previousSlide
      */
     SlideDeck.prototype.previousSlide = function() {
@@ -262,18 +262,18 @@ var Presenter = Presenter || {};
             this.currentSlide--;
         }
     };
-  
+
     /**
      * Update notes for current slide.
      *
-     * Reloads the notes stored within div.notes into the notes display. 
-     * 
+     * Reloads the notes stored within div.notes into the notes display.
+     *
      * @method refreshNotes
      */
     SlideDeck.prototype.refreshNotes = function() {
-        //Remove any content that was previously present in the notes-display. 
+        //Remove any content that was previously present in the notes-display.
         $("#notes-display").html("");
-        
+
         var currentSlide = this.getCurrentSlide();
         if (currentSlide.querySelectorAll(".notes")[0]) {
             var notes = currentSlide.querySelectorAll(".notes")[0];
@@ -282,8 +282,8 @@ var Presenter = Presenter || {};
     };
 
     /**
-     * Automatically start playing the video on the current slide, when present. 
-     * 
+     * Automatically start playing the video on the current slide, when present.
+     *
      * @method autoPlayVideo
      */
     SlideDeck.prototype.autoPlayVideo = function() {
@@ -294,8 +294,8 @@ var Presenter = Presenter || {};
     };
 
     /**
-     * Automatically stop playing the video on the current slide, when present. 
-     * 
+     * Automatically stop playing the video on the current slide, when present.
+     *
      * @method autoStopVideo
      */
     SlideDeck.prototype.autoStopVideo = function() {
@@ -339,8 +339,8 @@ var Presenter = Presenter || {};
     };
 
     /**
-     * Toggles the visibility of the mouse cursor.  
-     * 
+     * Toggles the visibility of the mouse cursor.
+     *
      * @method togglePointer
      */
     SlideDeck.prototype.togglePointer = function() {
@@ -349,12 +349,12 @@ var Presenter = Presenter || {};
     };
 
     SlideDeck.prototype.showPointer = function() {
-        this.pointer = true; 
+        this.pointer = true;
         document.body.classList.add("cursor-visible");
     };
 
     SlideDeck.prototype.hidePointer = function() {
-        this.pointer = false; 
+        this.pointer = false;
         document.body.classList.remove("cursor-visible");
     };
 
@@ -366,7 +366,7 @@ var Presenter = Presenter || {};
 
     /**
      * Adds an eventhandler to each video in the presentation, as such ensuring that they are played when clicked.
-     * 
+     *
      * @method initVideos
      */
     SlideDeck.prototype.initVideos = function() {
@@ -375,10 +375,10 @@ var Presenter = Presenter || {};
             videos[i].addEventListener('click', toggleVideo, false);
         }
     };
-    
+
     /**
-     * Return the appropriate CSS-transform for the scaling of screen. 
-     * 
+     * Return the appropriate CSS-transform for the scaling of screen.
+     *
      * @method scale
      * @param {number} scale
      */
@@ -386,54 +386,58 @@ var Presenter = Presenter || {};
         return "scale3d(" + scale + "," + scale + ",1)";
     };
 
-    //Make constructor visible in global space. 
+    //Make constructor visible in global space.
     global.Presenter.SlideDeck = SlideDeck;
 }(window));
 
 //Register Actions
-Presenter.Navigator.register("next",
-    function(){
-        Presenter.deck.next(); 
-    }
-);
-Presenter.Navigator.register("previous",
-    function(){
-        Presenter.deck.previous(); 
-    }
-);
-
-Presenter.Navigator.register("toggle_pointer",
-    function(){ 
-        Presenter.deck.togglePointer();
-    }
-);
-
-Presenter.Navigator.register("pointer.show",
-    function(){ 
-        Presenter.deck.showPointer();
-    }
-); 
-
-Presenter.Navigator.register("pointer.hide", 
-    function(){ 
-        Presenter.deck.hidePointer();
-    }
-);
-
-Presenter.Navigator.register("toggle_notes",
-    function(){
-         $("#notes-display").toggleClass("visible");
-    }
-);
-
-Presenter.Navigator.register("hide_notes",
-    function(){
-        $("#notes-display").removeClass("visible");
-    }
-);
-
-Presenter.Navigator.register("show_notes",
-    function(){
-        $("#notes-display").addClass("visible");
-    }
+Presenter.Navigator.registerMap([
+    {
+        key: "next",
+        action: function(){
+            Presenter.deck.next();
+        }
+    },
+    {
+        key: "previous",
+        action : function(){
+            Presenter.deck.previous();
+        }
+    },
+    {
+        key :"toggle_pointer",
+        action : function(){
+            Presenter.deck.togglePointer();
+        }
+    },
+    {
+        key: "pointer.show",
+        action: function(){
+            Presenter.deck.showPointer();
+        }
+    },
+    {
+        key : "pointer.hide",
+        action : function(){
+            Presenter.deck.hidePointer();
+        }
+    },
+    {
+        key: "toggle_notes",
+        action : function(){
+             $("#notes-display").toggleClass("visible");
+        }
+    },
+    {
+        key: "hide_notes",
+        action: function(){
+            $("#notes-display").removeClass("visible");
+        }
+    },
+    {
+        key : "show_notes",
+        action : function(){
+            $("#notes-display").addClass("visible");
+        }
+    }]
 );
