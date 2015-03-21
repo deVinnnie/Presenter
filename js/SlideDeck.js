@@ -288,8 +288,8 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.autoPlayVideo = function() {
         var currentSlide = this.getCurrentSlide();
-        if (currentSlide.classList.contains("video") && currentSlide.querySelector("video") !== null) {
-            currentSlide.querySelector("video").play(); 
+        if (currentSlide.querySelector("video") !== null) {
+            currentSlide.querySelector("video").play();
         }
     };
 
@@ -301,8 +301,8 @@ var Presenter = Presenter || {};
     SlideDeck.prototype.autoStopVideo = function() {
         //If the current slide has a video, stop playing the video.
         var currentSlide = this.getCurrentSlide();
-        if (currentSlide.classList.contains("video") && currentSlide.querySelector("video") !== null) {
-            currentSlide.querySelector("video").pause(); 
+        if (currentSlide.querySelector("video") !== null) {
+            currentSlide.querySelector("video").pause();
         }
     };
 
