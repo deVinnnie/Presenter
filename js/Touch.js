@@ -1,8 +1,8 @@
-/**  
+/**
  * @module Presenter
  */
  var Presenter = Presenter || {};
- 
+
 (function(global) {
     "use strict";
     /**
@@ -13,46 +13,47 @@
     }
 
     /**
-     * Register Touch Events with Hammer.js.  
-     * 
+     * Register Touch Events with Hammer.js.
+     *
      * @method enable
      * @static
      */
     Touch.enable = function(){
         var channel = postal.channel("slides");
-        var slideDeck = document.getElementById("slidedeck"); 
+        var deck= new Hammer($(".slideDeck")[0]);
 
         //Tap
-        Hammer(slideDeck).on("tap", function() {
+        deck.on("tap", function() {
             channel.publish("navigator", {action:"next"});
         });
-        
+
         //SwipeLeft
-        Hammer(slideDeck).on("swipeleft", function() {
+        deck.on("swipeleft", function() {
             channel.publish("navigator", {action:"next"});
         });
-        
+
         //SwipeRight
-        Hammer(slideDeck).on("swiperight", function() {
+        deck.on("swiperight", function() {
             channel.publish("navigator", {action:"previous"});
         });
-        
+
         //SwipeUp
-        Hammer(slideDeck).on("swipeup", function() {
+        deck.on("swipeup", function() {
             channel.publish("navigator", {action:"show_notes"});
         });
-        
-        //SwipeDown 
-        Hammer(slideDeck).on("swipedown", function() {
+
+        //SwipeDown
+        deck.on("swipedown", function() {
             channel.publish("navigator", {action:"hide_notes"});
         });
-        
+
         //Hold
-        Hammer(slideDeck).on("hold", function() {
+        deck.on("press", function() {
             channel.publish("navigator", {action:"overview"});
         });
+
     }
-   
-    //Make constructor visible in global space. 
+
+    //Make constructor visible in global space.
     global.Presenter.Touch = Touch;
 }(window));
