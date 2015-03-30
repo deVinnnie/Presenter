@@ -376,16 +376,6 @@ var Presenter = Presenter || {};
         }
     };
 
-    /**
-     * Return the appropriate CSS-transform for the scaling of screen.
-     *
-     * @method scale
-     * @param {number} scale
-     */
-    SlideDeck.prototype.scale = function (scale){
-        return "scale3d(" + scale + "," + scale + ",1)";
-    };
-
     //Make constructor visible in global space.
     global.Presenter.SlideDeck = SlideDeck;
 }(window));

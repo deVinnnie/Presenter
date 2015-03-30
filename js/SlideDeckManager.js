@@ -5,7 +5,7 @@
 
 (function(namespace, window) {
     "use strict";
-    var PREFIX = Presenter.PREFIX = ["-webkit-", "-moz-", "-o-", ""];
+    var PREFIX = Presenter.PREFIX = ["-webkit-", "-moz-", "-o-", "-ms-", ""];
     var deck;
     var SLIDE_TRANSFORMS = {};
 
@@ -27,7 +27,9 @@
         //Hook up eventhandlers.
         $(window).on("resize", Presenter.onWindowResized);
 
+        //Initialize input methods.
         if(typeof Hammer != 'undefined'){
+            //Use Touch input if the Hammer.js library is available.
             Presenter.Touch.enable();
         }
         Presenter.keyboard = new Presenter.Keyboard();
@@ -35,7 +37,7 @@
 
         addExtraHTMLElements();
         createDeck();
-        Presenter.onWindowResized();
+        Presenter.onWindowResized(); //Manually trigger resize event to set the initial scale right.
 
         //Overview
         if(typeof Presenter.Overview != 'undefined'){
@@ -125,22 +127,71 @@
      * Resizes slidedeck when window is resized.
      *
      * @method windowResizedHandler
+     *
+     * Generates this kind of CSS-code:
+     * @media screen{
+     *       .farPastSlide{
+     *           transform: scale3d(0.881,0.881,1) matrix(1, 0, 0, 1, -2600, 0);
+     *           left:119px;
+     *           top: 17px;
+     *       }
+     *       .pastSlide{
+     *           transform: scale3d(0.881,0.881,1) matrix(1, 0, 0, 1, -1300, 0);
+     *           left:119px;
+     *           top: 17px;
+     *       }
+     *       .currentSlide{
+     *           transform: scale3d(0.881,0.881,1) matrix(1, 0, 0, 1, 0, 0);
+     *           left:119px;
+     *           top: 17px;
+     *       }
+     *       .futureSlide{
+     *           transform: scale3d(0.881,0.881,1) matrix(1, 0, 0, 1, 1300, 0);
+     *           left:119px;
+     *           top: 17px;
+     *       }
+     *       .farFutureSlide{
+     *           transform: scale3d(0.881,0.881,1) matrix(1, 0, 0, 1, 2600, 0);
+     *           left:119px;
+     *           top: 17px;
+     *       }
+     *   }
      */
     Presenter.onWindowResized = function(){
         var styles = "@media screen{\n";
+
+
+        //         window.innerWidth
+        //  <------------------------------>
+        // ___________________________________
+        // |         deck.slideWidth         |                      ^
+        // |   <-------------------------->  |                      |
+        // |   ____________________________  |                      |
+        // |   | oooooooooooooooooooooooo |  |     ^                |
+        // |   | oooooooooooooooooooooooo |  |     |  deck.height   |  window.innerHeight
+        // |   | oooooooooooooooooooooooo |  |     |                |
+        // |   |__________________________|  |     v                |
+        // |                                 |                      |
+        // |_________________________________|                      v
+        //
         var scale = Math.min(window.innerHeight / deck.slideHeight, window.innerWidth / deck.slideWidth);
 
+        //Set a prescale if a "scale" parameter was included in the config object.
         if(Presenter.settings.hasOwnProperty("scale")){
             scale *= Presenter.settings.scale;
         }
 
-        var offsetLeft = (window.innerWidth - deck.slideWidth * scale) / 2.0;
-        var offsetTop = (window.innerHeight - deck.slideHeight * scale) / 2.0;
+        //The offset ensures that the slide is always in the center of the screen.
+        //Round to a integer pixel value.
+        var offsetLeft = Math.round((window.innerWidth - deck.slideWidth * scale) / 2.0);
+        var offsetTop = Math.round((window.innerHeight - deck.slideHeight * scale) / 2.0);
+
+        scale = Math.round(scale*1000)/1000; //Round to 3 decimal places.
 
         for (var i = 0; i < Presenter.SlideDeck.SLIDE_STATES.length; i++) {
             styles += "." + Presenter.SlideDeck.SLIDE_STATES[i] + "{\n";
             for (var j = 0; j < PREFIX.length; j++) {
-                styles += PREFIX[j] + "transform:"+ deck.scale(scale) + " ";
+                styles += PREFIX[j] + "transform: scale3d(" + scale + "," + scale + ",1)" + " ";
                 styles += SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] +";\n";
             }
             styles += "left:" + offsetLeft + "px;\n";
@@ -151,6 +202,10 @@
         $("#style").html(styles);
     }
 
+    /**
+     *
+     * @method disableTransitions
+     */
     Presenter.disableTransitions = function(){
         var styles = "";
 
