@@ -22,11 +22,6 @@
         var channel = postal.channel("slides");
         var deck= new Hammer($(".slideDeck")[0]);
 
-        //Tap
-        deck.on("tap", function() {
-            channel.publish("navigator", {action:"next"});
-        });
-
         //SwipeLeft
         deck.on("swipeleft", function() {
             channel.publish("navigator", {action:"next"});
@@ -51,7 +46,6 @@
         deck.on("press", function() {
             channel.publish("navigator", {action:"overview"});
         });
-
     }
 
     //Make constructor visible in global space.
