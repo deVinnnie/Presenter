@@ -109,11 +109,11 @@
             );
 
             var slide_style;
-            if( $("#test").css('transform')){
+            if( $("#test").css('transform') != "none"){
                 slide_style =  $("#test").css('transform');
             }
             else{
-                slide_style = $("#test").css('-webkit-transform');
+                slide_style = "";
             }
 
             SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] = slide_style;
