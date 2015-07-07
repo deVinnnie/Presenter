@@ -64,21 +64,6 @@ var Presenter = Presenter || {};
         }
     }
 
-    //Public Functions
-    SlideDeck.prototype.SlideInit = function(){
-        var init = $(this.getCurrentSlide()).attr("init");
-        if(typeof init != 'undefined'){
-            window[init]();//init
-        }
-    }
-
-    SlideDeck.prototype.SlideDestroy = function(){
-        var destroy = $(this.getCurrentSlide()).attr("destroy");
-        if(typeof destroy != 'undefined'){
-            window[destroy]();
-        }
-    }
-
     /**
      * Update URL in the adressbar to the current position in the slidedeck.
      *
