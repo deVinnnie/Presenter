@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                         'js/Overview.js',
                         'js/SyncClient.js'
                     ],
-                    dest: 'build/<%= pkg.name %>.js'
+                    dest: 'dist/js/<%= pkg.name %>.js'
               }
         },
         uglify: {
@@ -27,15 +27,22 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                  'build/<%= pkg.name %>.min.js' : ['<%= concat.dist.dest %>'] //Minimize the output of concat.
+                  'dist/js/<%= pkg.name %>.min.js' : ['<%= concat.dist.dest %>'] //Minimize the output of concat.
                 }
             }
         },
         less: {
-            all:{
+            presenter : {
+                options: {
+                    compress: true
+                },
                 files: {
-                    "css/presenter.css": "less/presenter.less",
-                    "css/presenter.theme.css" : "less/presenter.theme.less"
+                    "dist/css/presenter.css" : "less/presenter.less"
+                }
+            },
+            presenter_theme:{
+                files: {
+                    "dist/css/presenter.theme.css" : "less/presenter.theme.less"
                 }
             }
         },
@@ -51,7 +58,7 @@ module.exports = function(grunt) {
             }
         },
 
-        clean: ["css/*", "build/*", "doc/*"]
+        clean: ["dist/*", "doc/*"]
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -61,5 +68,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
     //Set Default task.
-    grunt.registerTask('default', 'concat');
+    grunt.registerTask('default', ['concat', 'uglify', 'less']);
 };
