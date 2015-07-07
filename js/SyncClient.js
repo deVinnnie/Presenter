@@ -1,8 +1,8 @@
-/**  
+/**
  * @module Presenter
  */
  var Presenter = Presenter || {};
- 
+
 (function(global) {
     "use strict";
     /**
@@ -12,93 +12,130 @@
      * @constructor
      */
     function SyncClient(){}
-    
+
     /**
-     * Register this instance of the presentation as master. 
-     * 
-     * In master mode the input commands (changing slides) are transmitted 
-     * via WebSockets to the sync-server and relayed 
-     * to the registered listeners. 
-     * 
-     * @method master
+     * Register this instance of the presentation as monitor.
+     *
+     * In monitor mode commands are received as well as sent. (Bidirectional)
+     * The monitor displays two slides side by side, and notes are visible by default.
+     *
+     * @method monitor
      * @static
      */
-    SyncClient.master = function() {
-        var url = prompt("URL", "");
-        
-        try{
-            var connection = new WebSocket('ws://' + url); //Example: ws://localhost:8080
-        }
-        catch(exception)
-        {
-            alert('WebSocket Error ' + exception); 
-            console.log('WebSocket Error ' + exception);
-            return; 
-        }
-            
-        $('body').addClass("master");  
-        $("#ticker").hide(); 
+    SyncClient.monitor = function() {
+        var connection = this.prompt();
+
+        $('body').addClass("master");
+        $("#ticker").hide();
         connection.onerror = function(error) {
-            alert('WebSocket Error ' + error); 
-            console.log('WebSocket Error ' + error);
+            alert('WebSocket Error ' + error);
+            console.error('WebSocket Error ' + error);
         };
-        
+
+        connection.onmessage = function(e) {
+            window.postal.channel("slides").publish("navigator-external", {action: e.data});
+            console.error('[SyncClient] Server: ' + e.data);
+        };
+
         window.postal.channel("slides").subscribe("navigator",
             function(data) {
                 connection.send(data.action);
             }
         ).withContext(this);
-    };
-    
+    }
+
     /**
-     * Register this instance of the presentation as listener. 
-     * Listens to incomming commands via WebSockets 
-     * and updates this instance accordingly. 
-     * Use this in combination with putInMasterMode
-     * 
+     * Register this instance of the presentation as listener.
+     * Listens to incomming commands via WebSockets and updates this instance accordingly.
+     * Input from the current instance is ignored.
+     * Only commands from the external instance are executed.
+     *
      * @method listen
      * @static
      */
     SyncClient.listen = function() {
-        var url = prompt("URL", "");
-        
-        try{
-            var connection = new WebSocket('ws://' + url);// ex. ws://localhost:8080
-        }
-        catch(exception)
-        {
-            alert('WebSocket Error ' + exception); 
-            console.error('[SyncClient] WebSocket Error ' + exception);
-            return; 
-        }
-        
-        $("#ticker").hide(); 
-        
+        var connection = this.prompt();
+        $("#ticker").hide();
+
         connection.onerror = function(error) {
-            alert('WebSocket Error ' + error); 
+            alert('WebSocket Error ' + error);
             console.error('[SyncClient] WebSocket Error ' + error);
         };
 
+        global.Presenter.keyboard.disable();
+        global.Presenter.Mouse.disable();
+
         connection.onmessage = function(e) {
-            window.postal.channel("slides").publish("navigator", {action: e.data});
+            window.postal.channel("slides").publish("navigator-external", {action: e.data});
             console.error('[SyncClient] Server: ' + e.data);
         };
     };
 
-    //Make constructor visible in global space. 
+    /**
+     * Connect this instance to a server.
+     * Listens to incomming commands via WebSockets and updates this instance accordingly.
+     * Input from the current instance is accepted.
+     *
+     * @method connect
+     * @static
+     */
+    SyncClient.connect = function() {
+        var connection = this.prompt();
+        $("#ticker").hide();
+
+        connection.onerror = function(error) {
+            alert('WebSocket Error ' + error);
+            console.error('[SyncClient] WebSocket Error ' + error);
+        };
+
+        window.postal.channel("slides").subscribe("navigator",
+            function(data) {
+                connection.send(data.action);
+            }
+        ).withContext(this);
+
+        connection.onmessage = function(e) {
+            window.postal.channel("slides").publish("navigator-external", {action: e.data});
+            console.error('[SyncClient] Server: ' + e.data);
+        };
+    };
+
+    SyncClient.prompt = function(){
+        var url = prompt("URL", "localhost:8080");
+
+        try{
+            var connection = new WebSocket('ws://' + url);// ex. ws://localhost:8080
+            return connection;
+        }
+        catch(exception)
+        {
+            alert('WebSocket Error ' + exception);
+            console.error('[SyncClient] WebSocket Error ' + exception);
+            return;
+        }
+    };
+
+    //Make constructor visible in global space.
     global.Presenter.SyncClient = SyncClient;
 }(window));
 
-Presenter.Navigator.register("sync.master",
+Presenter.Navigator.register("sync.monitor",
     function()
     {
-            Presenter.SyncClient.master(); 
+            Presenter.SyncClient.monitor();
     }
 );
 
 Presenter.Navigator.register("sync.listen",
     function()
     {
-        Presenter.SyncClient.listen(); 
+        Presenter.SyncClient.listen();
+    }
+);
+
+Presenter.Navigator.register("sync.connect",
+    function()
+    {
+        Presenter.SyncClient.connect();
     }
 );

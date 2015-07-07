@@ -1,8 +1,8 @@
-/**  
+/**
  * @module Presenter
  */
  var Presenter = Presenter || {};
- 
+
 (function(global) {
     "use strict";
     /**
@@ -10,7 +10,7 @@
      * @constructor
      */
     function Keyboard(){
-       this.enable(); 
+       this.enable();
     }
 
     Keyboard.map = {
@@ -21,20 +21,20 @@
 
         33: "previous", //Page-Up
         37: "previous", //Left Arrow-key
-        
+
         79: "overview", //"o" Overview
         80: "toggle_pointer", //"p" Pointer
         87: "curtain.toggle.white", //w
         66: "curtain.toggle.black", //b
         78: "toggle_notes", //n
-        77: "sync.master",  //"m"
+        77: "sync.monitor",  //"m"
         76: "sync.listen"//"l"
     };
 
     Keyboard.prototype.enable = function()
     {
         $(document).on("keydown", this.handle);
-    }; 
+    };
 
     Keyboard.prototype.disable = function()
     {
@@ -54,10 +54,10 @@
             channel.publish("navigator", {action: Keyboard.map[keyCode]});
         }
         else{
-            console.info("[Keyboard] Keycode '" + keyCode + "' has no action attached."); 
+            console.info("[Keyboard] Keycode '" + keyCode + "' has no action attached.");
         }
-    }; 
+    };
 
-    //Make constructor visible in global space. 
+    //Make constructor visible in global space.
     global.Presenter.Keyboard = Keyboard;
 }(window));

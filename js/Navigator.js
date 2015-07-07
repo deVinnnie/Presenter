@@ -20,6 +20,7 @@
     Navigator.init = function(){
         var channel = postal.channel("slides");
         channel.subscribe("navigator", Navigator.handle);
+        channel.subscribe("navigator-external", Navigator.handle);
     }
 
     /**
