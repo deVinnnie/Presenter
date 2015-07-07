@@ -33,7 +33,7 @@
             Presenter.Touch.enable();
         }
         Presenter.keyboard = new Presenter.Keyboard();
-        Presenter.mouse = new Presenter.Mouse();
+        Presenter.Mouse.enable();
 
         addExtraHTMLElements();
         createDeck();

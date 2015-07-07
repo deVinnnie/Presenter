@@ -5,34 +5,34 @@ var Presenter = Presenter || {};
 
 (function(global) {
     "use strict";
+
     /**
      * @class Mouse
-     * @constructor
      */
-    function Mouse(){
-       this.enable();
-    }
+    var Mouse = {};
 
-    Mouse.prototype.enable = function()
+    Mouse.enable = function()
     {
         console.log("[Mouse] Enabled");
 
         if (window.addEventListener) {    // all browsers except IE before version 9
             // Internet Explorer, Opera, Google Chrome and Safari
-            document.querySelector(".slideDeck").addEventListener("mousewheel",
-                function(e){
-                    Mouse.scrollHandler(e.wheelDelta);
-                },
-            false);
+            document.querySelector(".slideDeck").addEventListener("mousewheel", Mouse.handleMouseWheel, false);
 
             // Firefox
             // Scroll information is stored in e.detail. Is '3' for scrollDown and '-3' for scrollUp.
-            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll",
-                function(e){
-                    Mouse.scrollHandler(-e.detail);
-                },
-            false);
+            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll", Mouse.handleDOMMouseScroll, false);
         }
+    };
+
+    Mouse.handleMouseWheel = function(){
+        console.debug("mousewheel");
+        Mouse.scrollHandler(e.wheelDelta);
+    };
+
+    Mouse.handleDOMMouseScroll = function(){
+        console.debug("DOMMouseScroll");
+        Mouse.scrollHandler(-e.detail);
     };
 
     /**
@@ -50,11 +50,11 @@ var Presenter = Presenter || {};
         global.postal.channel("slides").publish("navigator", {action: action});
     }
 
-    Mouse.prototype.disable = function()
+    Mouse.disable = function()
     {
         console.log("[Mouse] Disabled");
-        document.querySelector(".slideDeck").removeEventListener("mousewheel", Mouse.scrollHandler);
-        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  Mouse.scrollHandler);
+        document.querySelector(".slideDeck").removeEventListener("mousewheel", Mouse.handleMouseWheel, false);
+        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  Mouse.handleDOMMouseScroll, false);
     };
 
     //Make constructor visible in global space.
