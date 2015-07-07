@@ -25,12 +25,12 @@ var Presenter = Presenter || {};
         }
     };
 
-    Mouse.handleMouseWheel = function(){
+    Mouse.handleMouseWheel = function(e){
         console.debug("mousewheel");
         Mouse.scrollHandler(e.wheelDelta);
     };
 
-    Mouse.handleDOMMouseScroll = function(){
+    Mouse.handleDOMMouseScroll = function(e){
         console.debug("DOMMouseScroll");
         Mouse.scrollHandler(-e.detail);
     };
