@@ -108,12 +108,9 @@
                         .attr("id", "test")
             );
 
-            var slide_style;
+            var slide_style = "";
             if( $("#test").css('transform') != "none"){
                 slide_style =  $("#test").css('transform');
-            }
-            else{
-                slide_style = "";
             }
 
             SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] = slide_style;
