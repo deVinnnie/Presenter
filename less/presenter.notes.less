@@ -23,19 +23,20 @@
 
     #notes-display{
         color: #FFF;
-        font-size: 75%;
+        font-size: 90%;
         position: fixed;
         bottom: -55%;
         height: 55%;
-        width: 98%; /*Make width slightly smaller than 100% to make room for scrollbar*/
+        width: 100%;
+        box-sizing: border-box; //Compute width for content + border (scrollbar)
 
         background-color: #000;
         background-color: rgba(0,0,0,0.7);
         .transition(bottom 0.3s ease-in);
-        padding: 0 1em;
-        overflow-y: scroll;
+        padding: 0 2em;
+        overflow-y: auto;
         cursor: auto;
-
+        
         ul{
             margin-left:0;
             padding-left:0;
