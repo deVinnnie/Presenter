@@ -54,9 +54,6 @@
         var thumbnailHeight = (deck.slideHeight / deck.slideWidth) * settings.thumbnail_width; //aspect-ratio * thumbnail_width
         var scale = settings.thumbnail_width / deck.slideWidth;
 
-        //Replace current styles.
-        Presenter.disableTransitions();
-
         //Wrap each slide in another div. Used for layout purposes in overview mode.
         $(deck.slides).wrap('<div class="slide-wrapper"/>');
 

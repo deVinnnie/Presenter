@@ -198,24 +198,6 @@
         styles+="\n";
         $("#style").html(styles);
     }
-
-    /**
-     *
-     * @method disableTransitions
-     */
-    Presenter.disableTransitions = function(){
-        var styles = "";
-
-        for (var i = 0; i < Presenter.SlideDeck.SLIDE_STATES.length; i++) {
-            styles += "." + Presenter.SlideDeck.SLIDE_STATES[i] + "{\n";
-            for (var j = 0; j < PREFIX.length; j++) {
-                styles += PREFIX[j] + "transform: none;\n";
-                styles += PREFIX[j] + "transition: all 0s;\n";
-            }
-            styles += "}\n";
-        }
-        $("#style").html(styles);
-    }
-
+    
     window.Presenter.init = init;
 }(Presenter, window));
