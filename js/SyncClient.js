@@ -122,7 +122,7 @@
 Presenter.Navigator.register("sync.monitor",
     function()
     {
-            Presenter.SyncClient.monitor();
+        Presenter.SyncClient.monitor();
     }
 );
 
