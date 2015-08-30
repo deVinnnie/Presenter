@@ -33,12 +33,12 @@
 
     Keyboard.prototype.enable = function()
     {
-        $(document).on("keydown", this.handle);
+        document.addEventListener("keydown", this.handle);
     };
 
     Keyboard.prototype.disable = function()
     {
-        $(document).off("keydown", this.handle);
+        document.removeEventListener("keydown", this.handle);
     };
 
     /**

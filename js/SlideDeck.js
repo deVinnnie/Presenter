@@ -256,13 +256,14 @@ var Presenter = Presenter || {};
      * @method refreshNotes
      */
     SlideDeck.prototype.refreshNotes = function() {
+        var notesDisplay = document.getElementById('notes-display');
         //Remove any content that was previously present in the notes-display.
-        $("#notes-display").html("");
+        notesDisplay.innerHTML = "";
 
         var currentSlide = this.getCurrentSlide();
         if (currentSlide.querySelectorAll(".notes")[0]) {
             var notes = currentSlide.querySelectorAll(".notes")[0];
-            $("#notes-display").html(notes.innerHTML);
+            notesDisplay.innerHTML = notes.innerHTML;
         }
     };
 
@@ -400,19 +401,19 @@ Presenter.Navigator.registerMap([
     {
         key: "toggle_notes",
         action : function(){
-             $("#notes-display").toggleClass("visible");
+            document.getElementById('notes-display').classList.toggle('visible');
         }
     },
     {
         key: "hide_notes",
         action: function(){
-            $("#notes-display").removeClass("visible");
+            document.getElementById('notes-display').classList.remove('visible');
         }
     },
     {
         key : "show_notes",
         action : function(){
-            $("#notes-display").addClass("visible");
+            document.getElementById('notes-display').classList.add('visible');
         }
     }]
 );

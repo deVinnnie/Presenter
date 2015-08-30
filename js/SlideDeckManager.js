@@ -25,7 +25,7 @@
         }
 
         //Hook up eventhandlers.
-        $(window).on("resize", Presenter.onWindowResized);
+        window.addEventListener("resize", Presenter.onWindowResized);
 
         //Initialize input methods.
         if(typeof Hammer != 'undefined'){
@@ -46,6 +46,7 @@
 
         Presenter.Navigator.init();
         window.postal.channel("slides").publish("slide-changed");
+
     }
 
     /**
@@ -108,9 +109,10 @@
                         .attr("id", "test")
             );
 
-            var slide_style = "";
-            if( $("#test").css('transform') != "none"){
-                slide_style =  $("#test").css('transform');
+            var testElement = document.getElementById('test');
+            var slide_style = getComputedStyle(testElement)['transform'];
+            if(slide_style == "none"){
+                slide_style = "";
             }
 
             SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] = slide_style;
@@ -196,8 +198,9 @@
             styles += "}\n";
         }
         styles+="\n";
-        $("#style").html(styles);
+
+        document.getElementById('style').innerHTML = styles;
     }
-    
+
     window.Presenter.init = init;
 }(Presenter, window));

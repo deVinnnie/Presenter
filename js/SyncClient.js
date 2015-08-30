@@ -25,8 +25,8 @@
     SyncClient.monitor = function() {
         var connection = this.prompt();
 
-        $('body').addClass("master");
-        $("#ticker").hide();
+        document.body.classList.add('master');
+        document.getElementById('ticker').classList.add('hidden');
         connection.onerror = function(error) {
             alert('WebSocket Error ' + error);
             console.error('WebSocket Error ' + error);
@@ -55,7 +55,7 @@
      */
     SyncClient.listen = function() {
         var connection = this.prompt();
-        $("#ticker").hide();
+        document.getElementById('ticker').classList.add('hidden');
 
         connection.onerror = function(error) {
             alert('WebSocket Error ' + error);
@@ -81,7 +81,7 @@
      */
     SyncClient.connect = function() {
         var connection = this.prompt();
-        $("#ticker").hide();
+        document.getElementById('ticker').classList.add('hidden');
 
         connection.onerror = function(error) {
             alert('WebSocket Error ' + error);

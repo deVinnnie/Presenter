@@ -68,7 +68,7 @@
         style += "}";
 
         $("#style").append(style);
-        $(window).off("resize");
+        window.removeEventListener("resize", Presenter.onWindowResized);
 
         $(".slideDeck")
                 .addClass("overview")
@@ -113,7 +113,7 @@
             deck.updateSlide(i, Presenter.SlideDeck.SLIDE_STATES[t]);
         }
 
-        $(window).on("resize", Presenter.onWindowResized);
+        window.addEventListener("resize", Presenter.onWindowResized);
         $(window).trigger('resize');
         channel.publish("slide-changed");
     }
