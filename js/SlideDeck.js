@@ -79,7 +79,7 @@ var Presenter = Presenter || {};
      * @method updateProgressBar
      */
     SlideDeck.prototype.updateProgressBar = function(){
-        var progressPercentage = this.currentSlide/this.nSlides*100; //Decrease by a small amount so that the variable doesn't become 1.0, as that would make the bar disappear.
+        var progressPercentage = this.currentSlide/this.nSlides*100;
         progressJs().set(progressPercentage); //Decrease the progressbar with 1% once every 0.01 * interval.
     }
 
@@ -112,7 +112,7 @@ var Presenter = Presenter || {};
      * Returns the sequence number of the given slide.
      *
      * @method getSlideNmb
-     * @return {int} The sequence number.
+     * @return {int} The sequence number. '1' is the first slide.
      */
     SlideDeck.prototype.getSlideNmb = function(slide) {
         var found = false;
@@ -138,13 +138,11 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.next = function() {
         var nSteps = this.getCurrentSlide().querySelectorAll(".step").length;
-        if (nSteps != 0)
-        {
+        if (nSteps != 0){
             this.stepManager.nextStep();
             this.channel.publish("step-changed", {type: "next"});
         }
-        else if(this.currentSlide+1 <= this.nSlides)
-        {
+        else{
             this.channel.publish("pre-slide-changed");
             this.nextSlide();
             this.channel.publish("slide-changed", {type: "next", slide: this.currentSlide});
@@ -163,7 +161,8 @@ var Presenter = Presenter || {};
         if (nSteps >= 1) {
             this.stepManager.previousStep();
             this.channel.publish("step-changed", {type: "previous"});
-        } else {
+        }
+        else {
             this.channel.publish("pre-slide-changed");
             this.previousSlide();
             this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
@@ -348,9 +347,6 @@ var Presenter = Presenter || {};
      * Handle video start playing and pausing events.
      * Use the click event of the video element to provide support for 'clicking on video and playing',
      * as opposed to aiming for the tiny play button.
-     */
-
-    /**
      * Adds an eventhandler to each video in the presentation, as such ensuring that they are played when clicked.
      *
      * @method initVideos
