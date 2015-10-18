@@ -8,7 +8,7 @@
   "dependencies": {
     "jquery": "1.11.0",
     "progress.js": "*",
-    "postal.js":"0.8.11",
+    "postal.js":"*",
     "lesshat" : "*",
     "hammer.js" : "*"
   },

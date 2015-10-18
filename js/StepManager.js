@@ -32,7 +32,7 @@ var Presenter = Presenter || {};
         this.current = -1;
 
         var channel = postal.channel("slides");
-        channel.subscribe("slide-changed", this.reset).withContext(this);
+        channel.subscribe("slide-changed", this.reset).context(this);
     }
 
     StepManager.prototype.setData = function(){

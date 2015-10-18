@@ -41,7 +41,7 @@
             function(data) {
                 connection.send(data.action);
             }
-        ).withContext(this);
+        ).context(this);
     }
 
     /**
@@ -92,7 +92,7 @@
             function(data) {
                 connection.send(data.action);
             }
-        ).withContext(this);
+        ).context(this);
 
         connection.onmessage = function(e) {
             window.postal.channel("slides").publish("navigator-external", {action: e.data});

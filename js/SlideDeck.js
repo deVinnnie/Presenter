@@ -28,18 +28,15 @@ var Presenter = Presenter || {};
         this.channel = postal.channel("slides");
 
         /*Actions done before slide changes*/
-        this.channel.subscribe("pre-slide-changed", this.autoStopVideo).withContext(this);
-        this.channel.subscribe("enter-overview", this.autoStopVideo).withContext(this);
+        this.channel.subscribe("pre-slide-changed", this.autoStopVideo).context(this);
+        this.channel.subscribe("enter-overview", this.autoStopVideo).context(this);
 
         /*Actions for new slide*/
-        this.channel.subscribe("slide-changed", this.updateLocationHash).withContext(this);
-        this.channel.subscribe("slide-changed", this.updateProgressBar).withContext(this);
+        this.channel.subscribe("slide-changed", this.updateLocationHash).context(this);
+        this.channel.subscribe("slide-changed", this.updateProgressBar).context(this);
 
-        this.channel.subscribe("slide-changed", this.refreshNotes).withContext(this);
-        this.channel.subscribe("slide-changed", this.autoPlayVideo).withContext(this);
-
-        this.channel.subscribe("slide-changed", this.SlideInit).withContext(this);
-        this.channel.subscribe("pre-slide-changed", this.SlideDestroy).withContext(this);
+        this.channel.subscribe("slide-changed", this.refreshNotes).context(this);
+        this.channel.subscribe("slide-changed", this.autoPlayVideo).context(this);
     }
 
     /*Static*/
