@@ -6,7 +6,7 @@
 (function(global) {
     "use strict";
     /**
-     * @class Overview
+     * @class Navigator
      * @constructor
      */
     function Navigator(){}
