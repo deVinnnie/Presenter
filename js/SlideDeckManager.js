@@ -53,10 +53,16 @@
     /**
      * Adds needed HTML markup to the DOM.
      *
+     * <div id="curtain"></div>
+     * <div id="notes-display"></div>
+     * <div id="ticker" class="{ticker-position}">
+     *    <ul id="ticks">
+     *    </ul>
+     * </div>
+     *
      *  @method addExtraHTMLElements
      */
     function addExtraHTMLElements(){
-        //Add necessary divs
         $("body")
                 .append($("<div/>").attr("id", "curtain"))
                 .append($("<div/>").attr("id", "notes-display"))
