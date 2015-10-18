@@ -11,10 +11,15 @@ var Presenter = Presenter || {};
      *  Example Usage
      *  <section>
      *      <ul>
-     *          <li class="step" data-step-group="1"></li>
-     *          <li class="step" data-step-group="1"></li>
-     *          <li class="step" data-step-group="2"></li>
+     *          <!-- Next two li items will show at the same time.-->
+     *          <li class="step" data-step-group="group1"></li>
+     *          <li class="step" data-step-group="groep1"></li>
+     *
+     *          <li class="step" data-step-group="groep2"></li>
+     *
+     *          <!--data-step-group attribute is optional.-->
      *          <li class="step"></li>
+     *       </ul>
      *  </section>
      *
      * @class StepManager
