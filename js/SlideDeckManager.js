@@ -16,6 +16,7 @@
      * @param {object} config Configuration object
      */
     function init(config) {
+        window.console.time("setup");
         Presenter.settings = config;
 
         //Redefine the log functions of console if the console object doesn't exist (ex. IE)
@@ -46,7 +47,7 @@
 
         Presenter.Navigator.init();
         window.postal.channel("slides").publish("slide-changed");
-
+        window.console.timeEnd("setup");
     }
 
     /**
