@@ -257,8 +257,8 @@ var Presenter = Presenter || {};
         notesDisplay.innerHTML = "";
 
         var currentSlide = this.getCurrentSlide();
-        if (currentSlide.querySelectorAll(".notes")[0]) {
-            var notes = currentSlide.querySelectorAll(".notes")[0];
+        if (currentSlide.querySelector(".notes")) {
+            var notes = currentSlide.querySelector(".notes");
             notesDisplay.innerHTML = notes.innerHTML;
         }
     };
