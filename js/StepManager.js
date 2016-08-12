@@ -50,17 +50,24 @@ var Presenter = Presenter || {};
      * @method nextStep
      */
      StepManager.prototype.nextStep = function() {
-        if(this.current >= 0 && this.current < this.groups.length){
-            $(this.groups[this.current].steps).removeClass("current-step");
+        if(this.current >= 0 && this.current < this.groups.length-1){
+            //Remove current-step class from all steps in the current group.
+            for(var i = 0; i < this.groups[this.current].steps.length; i++){
+                this.groups[this.current].steps[i].classList.remove("current-step");
+            }
         }
 
         if(this.current < this.groups.length-1){
             this.current++;
             this.deck.ticker.decrease();
 
-            $(this.groups[this.current].steps).removeClass("step");
-            $(this.groups[this.current].steps).addClass("current-step");
-            $(this.groups[this.current].steps).addClass("step-done");
+            var currentStepGroup = this.groups[this.current].steps;
+            for(var i = 0; i < currentStepGroup.length; i++){
+                var step = currentStepGroup[i];
+                step.classList.remove("step");
+                step.classList.remove("current-step");
+                step.classList.add("step-done");
+            }
         }
 
         this.setData();
@@ -73,15 +80,19 @@ var Presenter = Presenter || {};
      */
     StepManager.prototype.previousStep = function() {
         if(this.current >= 0 && this.current < this.groups.length){
-            $(this.groups[this.current].steps).removeClass("current-step");
-            $(this.groups[this.current].steps).removeClass("step-done");
-            $(this.groups[this.current].steps).addClass("step");
+            for(var i = 0; i < this.groups[this.current].steps.length; i++){
+                this.groups[this.current].steps[i].classList.remove("current-step", "step-done");
+                this.groups[this.current].steps[i].classList.add("step");
+            }
 
             this.current--;
             this.deck.ticker.increase();
 
             if(this.current >= 0){
-                $(this.groups[this.current].steps).addClass("current-step");
+                //Don't do this when no step is visible.
+                for(var i = 0; i < this.groups[this.current].steps.length; i++){
+                    this.groups[this.current].steps[i].classList.add("current-step");
+                }
             }
         }
         this.setData();
@@ -134,7 +145,7 @@ var Presenter = Presenter || {};
                 index = this.groups.length-1;
             }
 
-            if($(step).hasClass("current-step")){
+            if(step.classList.contains("current-step")){
                 this.current = index;
             }
         }

@@ -20,7 +20,8 @@
      */
     Touch.enable = function(){
         var channel = postal.channel("slides");
-        var deck= new Hammer($(".slideDeck")[0]);
+        var slideDeckElement = document.getElementsByClassName('.slideDeck')[0];
+        var deck= new Hammer(slideDeckElement);
 
         //SwipeLeft
         deck.on("swipeleft", function() {
