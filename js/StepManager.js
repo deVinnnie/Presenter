@@ -31,17 +31,21 @@ var Presenter = Presenter || {};
         this.groups = [];
         this.current = -1;
 
-        var channel = postal.channel("slides");
-        channel.subscribe("slide-changed", this.reset).context(this);
+        this.channel = postal.channel("slides");
+        this.channel.subscribe("slide-changed", this.reset).context(this);
     }
 
+    /**
+     * Update data-step-group attribute on slide element.
+     *
+     * @method setData
+     */
     StepManager.prototype.setData = function(){
-        if(this.current < 0 || this.current >= this.groups.length){
-            this.deck.getCurrentSlide().dataset.currentGroup = null;
+        var currentGroup = null;
+        if(!(this.current < 0 || this.current >= this.groups.length)){
+            currentGroup = this.groups[this.current].name;
         }
-        else{
-            this.deck.getCurrentSlide().dataset.currentGroup = this.groups[this.current].name;
-        }
+        this.deck.getCurrentSlide().dataset.currentGroup = currentGroup;
     }
 
     /**
@@ -71,6 +75,7 @@ var Presenter = Presenter || {};
         }
 
         this.setData();
+        this.channel.publish("step-changed", {type: "next"});
     };
 
     /**
@@ -96,6 +101,7 @@ var Presenter = Presenter || {};
             }
         }
         this.setData();
+        this.channel.publish("step-changed", {type: "previous"});
     };
 
     /**

@@ -137,12 +137,9 @@ var Presenter = Presenter || {};
         var nSteps = this.getCurrentSlide().querySelectorAll(".step").length;
         if (nSteps != 0){
             this.stepManager.nextStep();
-            this.channel.publish("step-changed", {type: "next"});
         }
         else{
-            this.channel.publish("pre-slide-changed");
             this.nextSlide();
-            this.channel.publish("slide-changed", {type: "next", slide: this.currentSlide});
         }
     };
 
@@ -157,12 +154,9 @@ var Presenter = Presenter || {};
         var nSteps = this.getCurrentSlide().querySelectorAll(".step-done").length;
         if (nSteps >= 1) {
             this.stepManager.previousStep();
-            this.channel.publish("step-changed", {type: "previous"});
         }
         else {
-            this.channel.publish("pre-slide-changed");
             this.previousSlide();
-            this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
         }
     };
 
@@ -210,6 +204,8 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.nextSlide = function() {
         if (this.currentSlide < this.nSlides) {
+            this.channel.publish("pre-slide-changed");
+
             //Update slides to new state.
             var slideN = this.currentSlide - 2;
             if (this.getSlide(slideN)) {
@@ -220,8 +216,9 @@ var Presenter = Presenter || {};
             for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, slideN++) {
                 this.updateSlide(slideN, SlideDeck.SLIDE_STATES[i]);
             }
-
             this.currentSlide++;
+
+            this.channel.publish("slide-changed", {type: "next", slide: this.currentSlide});
         }
     };
 
@@ -232,6 +229,7 @@ var Presenter = Presenter || {};
      */
     SlideDeck.prototype.previousSlide = function() {
         if (this.currentSlide > 1) {
+            this.channel.publish("pre-slide-changed");
             var slideN = this.currentSlide - 3;
             for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, slideN++) {
                 this.updateSlide(slideN, SlideDeck.SLIDE_STATES[i]);
@@ -239,8 +237,9 @@ var Presenter = Presenter || {};
             if (this.getSlide(slideN)) {
                 this.clear(slideN);
             }
-            slideN++;
+            
             this.currentSlide--;
+            this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
         }
     };
 
