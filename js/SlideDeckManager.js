@@ -81,7 +81,7 @@
     }
 
     /**
-     * Create an initialize a new deck object
+     * Create and initialize a new deck object
      *
      * @method createDeck
      */
