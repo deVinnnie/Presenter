@@ -42,7 +42,7 @@ var Presenter = Presenter || {};
      */
     StepManager.prototype.setData = function(){
         var currentGroup = null;
-        if(!(this.current < 0 || this.current >= this.groups.length)){
+        if(this.current >= 0 && this.current < this.groups.length){
             currentGroup = this.groups[this.current].name;
         }
         this.deck.getCurrentSlide().dataset.currentGroup = currentGroup;
@@ -114,51 +114,50 @@ var Presenter = Presenter || {};
         this.current = -1;
 
         for(var i=0; i< steps.length; i++){
+            /*
+            <li class="step" data-step-group="group1"></li>
+            <li class="step"></li>
+            <span class="step" data-step-group="group1"></span>
+            */
             var step = steps[i];
             var group = step.dataset.stepGroup; //data-step-group = dataset.stepGroup!!!
-            var index;
-
-            if(typeof group != 'undefined'){
-                var found = false;
-                var searchIndex = 0;
-                while(!found && searchIndex < this.groups.length){
-                    if(this.groups[searchIndex].name == group){
-                        var new_group = this.groups[searchIndex];
-                        new_group.steps.push(step);
-                        index = searchIndex;
-                        found = true;
-                    }
-                    else{
-                        searchIndex++;
-                    }
-                }
-
-                if(!found){
-                    var new_group = {};
-                    new_group.name = group;
-                    new_group.steps = [];
-                    new_group.steps[0]= step;
-                    this.groups.push(new_group);
-                    index = this.groups.length-1;
-                }
+            
+            var groupIndex = this.findGroup(group);
+            console.log(groupIndex);
+            if(groupIndex == null){
+                //Make new group if it wasn't found.
+                var groupName = (group != undefined) ? group : null;
+                var new_group = { name : groupName };
+                new_group.steps = [step];
+                this.groups.push(new_group);
             }
             else{
-                var new_group = {};
-                new_group.name = null;
-                new_group.steps = [];
-                new_group.steps[0] = step;
-                this.groups.push(new_group);
-                index = this.groups.length-1;
-            }
-
-            if(step.classList.contains("current-step")){
-                this.current = index;
+                //Add curent step to existing group.
+                this.groups[groupIndex].steps.push(step);
             }
         }
 
-        this.deck.ticker.set(this.groups.length-(this.current+1));
+        var nSteps = this.groups.length;
+        this.deck.ticker.set(nSteps);
         this.setData();
     };
+
+    StepManager.prototype.findGroup = function(group){
+        var found = false;
+        var searchIndex = 0;
+
+        //Find group.
+        while(!found && searchIndex < this.groups.length){
+            if(this.groups[searchIndex].name == group){
+                found = true;
+                return searchIndex;
+            }
+            else{
+                searchIndex++;
+            }
+        }
+        return null;
+    }
 
     namespace.StepManager = StepManager;
 }(Presenter));
