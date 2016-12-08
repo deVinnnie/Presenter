@@ -203,7 +203,8 @@
 
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
             styles += "." + SlideDeck.SLIDE_STATES[i] + "{\n";
-            styles += "transform: scale3d(" + scale + "," + scale + ",1)" + " ";
+            styles += `transform: scale3d(${scale},${scale},1)`;
+            styles += " ";
             styles += SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] +";\n";
             
             styles += `left: ${offsetLeft}px;\n`;

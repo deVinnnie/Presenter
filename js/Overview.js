@@ -54,12 +54,13 @@ class Overview{
         //Wrap each slide in another div. Used for layout purposes in overview mode.
         $(deck.slides).wrap('<div class="slide-wrapper"/>');
 
-        var style = ".slide-wrapper{width:" + settings.thumbnail_width + "px;"
-                + "height:" + (thumbnailHeight) + "px;}\n"
-                + ".slideDeck.overview .slide-wrapper .slide"
-                + "{\n";
-        style += "transform: scale(" + scale + ");\n";
-        style += "}";
+        var style = `.slide-wrapper{
+            width: ${settings.thumbnail_width}px;
+            height: ${thumbnailHeight}px;
+        }`;
+        style += `.slideDeck.overview .slide-wrapper .slide {
+                        transform: scale(${scale});
+                  }`;
 
         $("#style").append(style);
         window.removeEventListener("resize", Presenter.onWindowResized);
@@ -104,7 +105,7 @@ class Overview{
 
         var t = 0;
         for (var i = deck.currentSlide - 2; i <= deck.currentSlide + 2; i++, t++) {
-            deck.updateSlide(i, Presenter.SlideDeck.SLIDE_STATES[t]);
+            deck.updateSlide(i, SlideDeck.SLIDE_STATES[t]);
         }
 
         window.addEventListener("resize", Presenter.onWindowResized);
