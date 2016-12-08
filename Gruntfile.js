@@ -58,6 +58,29 @@ module.exports = function(grunt) {
                 }
             }
         },
+        watch: {
+            livereload: {
+                options: {
+                    livereload: true
+                },
+                files: [
+                    'example.html',
+                    'js/*.js',
+                    'dist/*'
+                ]
+            }
+        },
+        connect: {
+            livereload: {
+                options: {
+                    port: 9000,
+                    hostname: 'localhost',
+                    base: '.',
+                    open: 'example.html',
+                    livereload: true
+                }
+            }
+        },
 
         clean: ["dist/*", "doc/*"]
     });
@@ -67,7 +90,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     //Set Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'less']);
+    grunt.registerTask('default', ['concat', 'less']);
+    
+    grunt.registerTask('serve', ['connect', 'watch']);
 };
