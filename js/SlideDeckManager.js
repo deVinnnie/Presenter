@@ -5,7 +5,6 @@
 
 (function(namespace, window) {
     "use strict";
-    var PREFIX = Presenter.PREFIX = ["-webkit-", "-moz-", "-o-", "-ms-", ""];
     var deck;
     var SLIDE_TRANSFORMS = {};
 
@@ -44,7 +43,7 @@
         Presenter.onWindowResized(); //Manually trigger resize event to set the initial scale right.
 
         //Overview
-        if(typeof Presenter.Overview != 'undefined'){
+        if(typeof Overview != 'undefined'){
             Presenter.overview = new Overview(deck);
         }
 
@@ -204,12 +203,11 @@
 
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
             styles += "." + SlideDeck.SLIDE_STATES[i] + "{\n";
-            for (var j = 0; j < PREFIX.length; j++) {
-                styles += PREFIX[j] + "transform: scale3d(" + scale + "," + scale + ",1)" + " ";
-                styles += SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] +";\n";
-            }
-            styles += "left:" + offsetLeft + "px;\n";
-            styles += "top: " + offsetTop + "px;\n";
+            styles += "transform: scale3d(" + scale + "," + scale + ",1)" + " ";
+            styles += SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] +";\n";
+            
+            styles += `left: ${offsetLeft}px;\n`;
+            styles += `top: ${offsetTop}px;\n`;
             styles += "}\n";
         }
         styles+="\n";

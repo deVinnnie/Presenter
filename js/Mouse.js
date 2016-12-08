@@ -52,7 +52,7 @@ class Mouse{
 
     disable(){
         console.log("[Mouse] Disabled");
-        document.querySelector(".slideDeck").removeEventListener("mousewheel", handleMouseWheel, false);
-        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  handleDOMMouseScroll, false);
+        document.querySelector(".slideDeck").removeEventListener("mousewheel", this.handleMouseWheel, false);
+        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  this.handleDOMMouseScroll, false);
     }
 }

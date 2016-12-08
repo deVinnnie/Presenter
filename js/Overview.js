@@ -34,13 +34,12 @@ class Overview{
      *  @method show
      */
     show() {
-        let PREFIX = Presenter.PREFIX;
         this.active = true;
         var deck = this.deck;
         var settings = Presenter.settings;
         var channel = window.postal.channel("slides");
 
-        Presenter.Mouse.disable();
+        deck.mouse.disable();
 
         //Announce change
         channel.publish("enter-overview");
@@ -59,10 +58,7 @@ class Overview{
                 + "height:" + (thumbnailHeight) + "px;}\n"
                 + ".slideDeck.overview .slide-wrapper .slide"
                 + "{\n";
-        for (var i = 0; i < PREFIX.length; i++) {
-            style += PREFIX[i] + "transform: scale(" + scale + ");\n";
-        }
-
+        style += "transform: scale(" + scale + ");\n";
         style += "}";
 
         $("#style").append(style);
@@ -94,7 +90,7 @@ class Overview{
         var settings = Presenter.settings;
         var channel = window.postal.channel("slides");
 
-        Presenter.Mouse.enable();
+        deck.mouse.enable();
 
         channel.publish("navigator", {action:"pointer.hide"});
 
