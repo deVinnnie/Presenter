@@ -13,6 +13,13 @@
     "grunt-contrib-less" : "*",
     "grunt-contrib-uglify" : "*",
     "grunt-contrib-clean" : "*",
-    "grunt-contrib-yuidoc" : "*"
+    "grunt-contrib-yuidoc" : "*",
+  },
+  "dependencies" : {
+    "jquery": "*",
+    "progress-js": "*",
+    "postal":"*",
+    "lesshat" : "*",
+    "hammerjs" : "*"
   }
 }
