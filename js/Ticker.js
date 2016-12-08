@@ -3,8 +3,7 @@
  */
 var Presenter = Presenter || {};
 
-(function(namespace) {
-    "use strict";
+class Ticker{
 
     /**
      * The Ticker indicates the number of steps (hidden elements) remaining on the current slide.
@@ -13,7 +12,7 @@ var Presenter = Presenter || {};
      * @constructor
      * @param {SlideDeck} Reference to SlideDeck object.
      */
-    function Ticker(deck) {
+    constructor(deck) {
         this.deck = deck;
     }
 
@@ -22,7 +21,7 @@ var Presenter = Presenter || {};
      *
      * @method flush
      */
-    Ticker.prototype.flush = function(){
+    flush(){
         var ticks = document.querySelector("#ticks");
         while(ticks.firstChild){
             ticks.removeChild(ticks.firstChild);
@@ -34,7 +33,7 @@ var Presenter = Presenter || {};
      *
      * @method renew
      */
-    Ticker.prototype.renew = function() {
+    renew() {
         var nSteps = this.deck.getCurrentSlide().querySelectorAll(".step").length;
         var nTicks = document.getElementById("ticks").childNodes.length;
         var deltaSteps = Math.abs(nSteps - nTicks);
@@ -54,14 +53,14 @@ var Presenter = Presenter || {};
         for(var i = 0; i < deltaSteps; i++){
             callback.apply(this);
         }
-    };
+    }
 
     /**
      * Set Ticker to a specific count.
      *
      * @method set
      */
-    Ticker.prototype.set = function(nSteps) {
+    set(nSteps) {
         this.flush();
         for(var i = 0; i < nSteps; i++){
             this.increase();
@@ -73,7 +72,7 @@ var Presenter = Presenter || {};
      *
      * @method decrease
      */
-    Ticker.prototype.decrease = function() {
+    decrease() {
         var lastChild = document.querySelector("#ticks li:last-child");
         lastChild.remove();
     };
@@ -83,14 +82,11 @@ var Presenter = Presenter || {};
      *
      * @method increase
      */
-    Ticker.prototype.increase = function() {
+    increase() {
         $("#ticks").append(
             $("<li />").append(
                 $("<span />").attr("class", "tick")
             )
         );
-    };
-
-    //Make constructor visible in module.
-    namespace.Ticker = Ticker;
-}(Presenter));
+    }
+}

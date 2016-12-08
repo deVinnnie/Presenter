@@ -1,17 +1,16 @@
 /**
  * @module Presenter
  */
- var Presenter = Presenter || {};
+var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+class SyncClient{
     /**
      * Client side functions for synchronizing slide progress with sync_server.
      *
      * @class SyncClient
      * @constructor
      */
-    function SyncClient(){}
+    constructor(){}
 
     /**
      * Register this instance of the presentation as monitor.
@@ -22,7 +21,7 @@
      * @method monitor
      * @static
      */
-    SyncClient.monitor = function() {
+    monitor() {
         var connection = this.prompt();
 
         document.body.classList.add('master');
@@ -53,7 +52,7 @@
      * @method listen
      * @static
      */
-    SyncClient.listen = function() {
+    listen() {
         var connection = this.prompt();
         document.getElementById('ticker').classList.add('hidden');
 
@@ -69,7 +68,7 @@
             window.postal.channel("slides").publish("navigator-external", {action: e.data});
             console.error('[SyncClient] Server: ' + e.data);
         };
-    };
+    }
 
     /**
      * Connect this instance to a server.
@@ -79,7 +78,7 @@
      * @method connect
      * @static
      */
-    SyncClient.connect = function() {
+    connect() {
         var connection = this.prompt();
         document.getElementById('ticker').classList.add('hidden');
 
@@ -98,9 +97,9 @@
             window.postal.channel("slides").publish("navigator-external", {action: e.data});
             console.error('[SyncClient] Server: ' + e.data);
         };
-    };
+    }
 
-    SyncClient.prompt = function(){
+    prompt(){
         var url = prompt("URL", "localhost:8080");
 
         try{
@@ -113,29 +112,7 @@
             console.error('[SyncClient] WebSocket Error ' + exception);
             return;
         }
-    };
-
-    //Make constructor visible in global space.
-    global.Presenter.SyncClient = SyncClient;
-}(window));
-
-Presenter.Navigator.register("sync.monitor",
-    function()
-    {
-        Presenter.SyncClient.monitor();
     }
-);
+}
 
-Presenter.Navigator.register("sync.listen",
-    function()
-    {
-        Presenter.SyncClient.listen();
-    }
-);
-
-Presenter.Navigator.register("sync.connect",
-    function()
-    {
-        Presenter.SyncClient.connect();
-    }
-);
+Presenter.syncClient = new SyncClient();

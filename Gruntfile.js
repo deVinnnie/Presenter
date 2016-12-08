@@ -15,7 +15,8 @@ module.exports = function(grunt) {
                         'js/Curtain.js',
                         'js/Touch.js',
                         'js/Overview.js',
-                        'js/SyncClient.js'
+                        'js/SyncClient.js',
+                        'js/Routes.js'
                     ],
                     dest: 'dist/js/<%= pkg.name %>.js'
               }

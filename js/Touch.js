@@ -3,22 +3,19 @@
  */
  var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+class Touch{
     /**
      * @class Touch
      * @constructor
      */
-    function Touch(){
-    }
+    constructor(){}
 
     /**
      * Register Touch Events with Hammer.js.
      *
      * @method enable
-     * @static
      */
-    Touch.enable = function(){
+    enable(){
         var channel = postal.channel("slides");
         var slideDeckElement = document.getElementsByClassName('.slideDeck')[0];
         var deck= new Hammer(slideDeckElement);
@@ -48,7 +45,4 @@
             channel.publish("navigator", {action:"overview"});
         });
     }
-
-    //Make constructor visible in global space.
-    global.Presenter.Touch = Touch;
-}(window));
+}

@@ -4,8 +4,7 @@
  */
 var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+class SlideDeck{
     /**
      * SlideDeck
      *
@@ -14,13 +13,13 @@ var Presenter = Presenter || {};
      * @param {array} slides List of slides in the deck.
      * @param {int} currentSlide The first slide to show. (Starts at 1)
      */
-    function SlideDeck(slides, currentSlide) {
+    constructor(slides, currentSlide) {
         this.slides = slides;
         this.nSlides = this.slides.length;
         this.currentSlide = currentSlide;
         this.pointer = false;
-        this.ticker = new global.Presenter.Ticker(this);
-        this.stepManager = new global.Presenter.StepManager(this);
+        this.ticker = new Ticker(this);
+        this.stepManager = new StepManager(this);
 
         this.initProgressBar();
         this.initVideos();
@@ -40,18 +39,20 @@ var Presenter = Presenter || {};
     }
 
     /*Static*/
-    SlideDeck.SLIDE_STATES = [
-        "farPastSlide",
-        "pastSlide",
-        "currentSlide",
-        "futureSlide",
-        "farFutureSlide"
-    ];
+    static get SLIDE_STATES(){ 
+        return [
+            "farPastSlide",
+            "pastSlide",
+            "currentSlide",
+            "futureSlide",
+            "farFutureSlide"
+        ];
+    }
 
     /*
      Private functions
      */
-    function toggleVideo(e) {
+    _toggleVideo(e) {
         var video = e.target;
         if(video.paused){
             video.play();
@@ -66,23 +67,23 @@ var Presenter = Presenter || {};
      *
      * @method updateLocationHash
      */
-    SlideDeck.prototype.updateLocationHash = function() {
-        global.location.hash = "#" + this.currentSlide;
-    };
+    updateLocationHash() {
+        window.location.hash = "#" + this.currentSlide;
+    }
 
     /**
      * Update progressbar.
      *
      * @method updateProgressBar
      */
-    SlideDeck.prototype.updateProgressBar = function(){
+    updateProgressBar(){
         var progressPercentage = this.currentSlide/this.nSlides*100;
         progressJs().set(progressPercentage); //Decrease the progressbar with 1% once every 0.01 * interval.
     }
 
-    SlideDeck.prototype.initProgressBar = function(){
+    initProgressBar(){
         progressJs().start();
-    };
+    }
 
     /**
      * Returns the slide object for the given slide number.
@@ -91,9 +92,9 @@ var Presenter = Presenter || {};
      * @param {int} slideNumber
      * @return {htmlelement} The corresponding slide.
      */
-    SlideDeck.prototype.getSlide = function(slideNumber) {
+    getSlide(slideNumber) {
         return this.slides[slideNumber - 1];
-    };
+    }
 
     /**
      * Returns the current slide.
@@ -101,9 +102,9 @@ var Presenter = Presenter || {};
      * @method getCurrentSlide
      * @return {htmlelement} The current slide.
      */
-    SlideDeck.prototype.getCurrentSlide = function() {
+    getCurrentSlide() {
         return this.getSlide(this.currentSlide);
-    };
+    }
 
     /**
      * Returns the sequence number of the given slide.
@@ -111,7 +112,7 @@ var Presenter = Presenter || {};
      * @method getSlideNmb
      * @return {int} The sequence number. '1' is the first slide.
      */
-    SlideDeck.prototype.getSlideNmb = function(slide) {
+    getSlideNmb(slide) {
         var found = false;
         var i = 0;
         while (i < this.slides.length && found === false) {
@@ -123,7 +124,7 @@ var Presenter = Presenter || {};
             }
         }
         return (i + 1);
-    };
+    }
 
     /**
      * Go to next item (Slide or step)
@@ -133,7 +134,7 @@ var Presenter = Presenter || {};
      *
      * @method next
      */
-    SlideDeck.prototype.next = function() {
+    next() {
         var nSteps = this.getCurrentSlide().querySelectorAll(".step").length;
         if (nSteps != 0){
             this.stepManager.nextStep();
@@ -141,7 +142,7 @@ var Presenter = Presenter || {};
         else{
             this.nextSlide();
         }
-    };
+    }
 
     /**
      * Go to previous item (Slide or step)
@@ -150,7 +151,7 @@ var Presenter = Presenter || {};
      *
      * @method previous
      */
-    SlideDeck.prototype.previous = function() {
+    previous() {
         var nSteps = this.getCurrentSlide().querySelectorAll(".step-done").length;
         if (nSteps >= 1) {
             this.stepManager.previousStep();
@@ -158,7 +159,7 @@ var Presenter = Presenter || {};
         else {
             this.previousSlide();
         }
-    };
+    }
 
     /**
      * Goto to the specified Slide using the Id of the slide.
@@ -166,7 +167,7 @@ var Presenter = Presenter || {};
      * @method gotoById
      * @param {string} id Id of the slide.
      */
-    SlideDeck.prototype.gotoById = function(id) {
+    gotoById(id) {
         this.channel.publish("pre-slide-changed");
         var n = this.currentSlide - 2;
         for (var i = 0; i < this.SLIDE_STATES.length; i++, n++) {
@@ -180,7 +181,7 @@ var Presenter = Presenter || {};
             this.updateSlide(slideN, this.SLIDE_STATES[i]);
         }
         this.channel.publish("slide-changed", {type: "goto", slide: this.currentSlide});
-    };
+    }
 
     /**
      * Goto to the specified Slide using the slide number.
@@ -188,21 +189,21 @@ var Presenter = Presenter || {};
      * @method gotoByNumber
      * @param {int} n The number/order of the slide in the slidedeck.
      */
-    SlideDeck.prototype.gotoByNumber = function(n){
+    gotoByNumber(n){
         this.currentSlide = n;
         var t = 0;
         for (var i = this.currentSlide - 2; i <= this.currentSlide + 2; i++, t++) {
             this.updateSlide(i, Presenter.SlideDeck.SLIDE_STATES[t]);
         }
         this.channel.publish("slide-changed", {type: "goto", slide: this.currentSlide});
-    };
+    }
 
     /**
      * Go to next slide.
      *
      * @method nextSlide
      */
-    SlideDeck.prototype.nextSlide = function() {
+    nextSlide() {
         if (this.currentSlide < this.nSlides) {
             this.channel.publish("pre-slide-changed");
 
@@ -220,14 +221,14 @@ var Presenter = Presenter || {};
 
             this.channel.publish("slide-changed", {type: "next", slide: this.currentSlide});
         }
-    };
+    }
 
     /**
      * Go to previous slide.
      *
      * @method previousSlide
      */
-    SlideDeck.prototype.previousSlide = function() {
+    previousSlide() {
         if (this.currentSlide > 1) {
             this.channel.publish("pre-slide-changed");
             var slideN = this.currentSlide - 3;
@@ -241,7 +242,7 @@ var Presenter = Presenter || {};
             this.currentSlide--;
             this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
         }
-    };
+    }
 
     /**
      * Update notes for current slide.
@@ -250,7 +251,7 @@ var Presenter = Presenter || {};
      *
      * @method refreshNotes
      */
-    SlideDeck.prototype.refreshNotes = function() {
+    refreshNotes() {
         var notesDisplay = document.getElementById('notes-display');
         //Remove any content that was previously present in the notes-display.
         notesDisplay.innerHTML = "";
@@ -260,32 +261,32 @@ var Presenter = Presenter || {};
             var notes = currentSlide.querySelector(".notes");
             notesDisplay.innerHTML = notes.innerHTML;
         }
-    };
+    }
 
     /**
      * Automatically start playing the video on the current slide, when present.
      *
      * @method autoPlayVideo
      */
-    SlideDeck.prototype.autoPlayVideo = function() {
+    autoPlayVideo() {
         var currentSlide = this.getCurrentSlide();
         if (currentSlide.querySelector("video") !== null) {
             currentSlide.querySelector("video").play();
         }
-    };
+    }
 
     /**
      * Automatically stop playing the video on the current slide, when present.
      *
      * @method autoStopVideo
      */
-    SlideDeck.prototype.autoStopVideo = function() {
+    autoStopVideo() {
         //If the current slide has a video, stop playing the video.
         var currentSlide = this.getCurrentSlide();
         if (currentSlide.querySelector("video") !== null) {
             currentSlide.querySelector("video").pause();
         }
-    };
+    }
 
     /**
      * Update the slide with the given state.
@@ -294,7 +295,7 @@ var Presenter = Presenter || {};
      * @param {int} slideNumber between 1 and slides.length
      * @param {String} stateName New state of the slide (one of SLIDE_STATES)
      */
-    SlideDeck.prototype.updateSlide = function(slideNumber, stateName) {
+    updateSlide(slideNumber, stateName) {
         if (slideNumber > 0 && slideNumber <= this.slides.length) {
             var slide = this.getSlide(slideNumber);
             for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
@@ -302,7 +303,7 @@ var Presenter = Presenter || {};
             }
             slide.classList.add(stateName);
         }
-    };
+    }
 
     /**
      * Remove all states from the slide.
@@ -310,34 +311,34 @@ var Presenter = Presenter || {};
      * @method clear
      * @param {int} slideNumber Number of the Slide
      */
-    SlideDeck.prototype.clear = function(slideNumber) {
+    clear(slideNumber) {
         if (slideNumber > 0 && slideNumber <= this.slides.length) {
             var slide = this.getSlide(slideNumber);
             for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
                 slide.classList.remove(SlideDeck.SLIDE_STATES[i]);
             }
         }
-    };
+    }
 
     /**
      * Toggles the visibility of the mouse cursor.
      *
      * @method togglePointer
      */
-    SlideDeck.prototype.togglePointer = function() {
+    togglePointer() {
         this.pointer = !this.pointer;
         document.body.classList.toggle("cursor-visible");
-    };
+    }
 
-    SlideDeck.prototype.showPointer = function() {
+    showPointer() {
         this.pointer = true;
         document.body.classList.add("cursor-visible");
-    };
-
-    SlideDeck.prototype.hidePointer = function() {
+    }
+    
+    hidePointer() {
         this.pointer = false;
         document.body.classList.remove("cursor-visible");
-    };
+    }
 
     /*
      * Handle video start playing and pausing events.
@@ -347,65 +348,10 @@ var Presenter = Presenter || {};
      *
      * @method initVideos
      */
-    SlideDeck.prototype.initVideos = function() {
+    initVideos() {
         var videos = document.getElementsByTagName('video');
         for (var i = 0; i < videos.length; i++) {
-            videos[i].addEventListener('click', toggleVideo, false);
+            videos[i].addEventListener('click', _toggleVideo, false);
         }
-    };
-
-    //Make constructor visible in global space.
-    global.Presenter.SlideDeck = SlideDeck;
-}(window));
-
-//Register Actions
-Presenter.Navigator.registerMap([
-    {
-        key: "next",
-        action: function(){
-            Presenter.deck.next();
-        }
-    },
-    {
-        key: "previous",
-        action : function(){
-            Presenter.deck.previous();
-        }
-    },
-    {
-        key :"toggle_pointer",
-        action : function(){
-            Presenter.deck.togglePointer();
-        }
-    },
-    {
-        key: "pointer.show",
-        action: function(){
-            Presenter.deck.showPointer();
-        }
-    },
-    {
-        key : "pointer.hide",
-        action : function(){
-            Presenter.deck.hidePointer();
-        }
-    },
-    {
-        key: "toggle_notes",
-        action : function(){
-            document.getElementById('notes-display').classList.toggle('visible');
-        }
-    },
-    {
-        key: "hide_notes",
-        action: function(){
-            document.getElementById('notes-display').classList.remove('visible');
-        }
-    },
-    {
-        key : "show_notes",
-        action : function(){
-            document.getElementById('notes-display').classList.add('visible');
-        }
-    }]
-);
+    }
+}

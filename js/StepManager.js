@@ -3,8 +3,7 @@
  */
 var Presenter = Presenter || {};
 
-(function(namespace) {
-    "use strict";
+class StepManager{
     /**
      * Controls the visibility and transitions of steps.
      *
@@ -26,7 +25,7 @@ var Presenter = Presenter || {};
      * @constructor
      * @param {SlideDeck} Reference to the SlideDeck object.
      */
-    function StepManager(deck) {
+    constructor(deck) {
         this.deck = deck;
         this.groups = [];
         this.current = -1;
@@ -40,7 +39,7 @@ var Presenter = Presenter || {};
      *
      * @method setData
      */
-    StepManager.prototype.setData = function(){
+    setData(){
         var currentGroup = null;
         if(this.current >= 0 && this.current < this.groups.length){
             currentGroup = this.groups[this.current].name;
@@ -53,7 +52,7 @@ var Presenter = Presenter || {};
      *
      * @method nextStep
      */
-     StepManager.prototype.nextStep = function() {
+    nextStep() {
         if(this.current >= 0 && this.current < this.groups.length-1){
             //Remove current-step class from all steps in the current group.
             for(var i = 0; i < this.groups[this.current].steps.length; i++){
@@ -76,14 +75,14 @@ var Presenter = Presenter || {};
 
         this.setData();
         this.channel.publish("step-changed", {type: "next"});
-    };
+    }
 
     /**
      * Hides the last visible step on the current slide.
      *
      * @method previousStep
      */
-    StepManager.prototype.previousStep = function() {
+    previousStep() {
         if(this.current >= 0 && this.current < this.groups.length){
             for(var i = 0; i < this.groups[this.current].steps.length; i++){
                 this.groups[this.current].steps[i].classList.remove("current-step", "step-done");
@@ -102,13 +101,13 @@ var Presenter = Presenter || {};
         }
         this.setData();
         this.channel.publish("step-changed", {type: "previous"});
-    };
+    }
 
     /**
      *
      * @method reset
      */
-    StepManager.prototype.reset = function(){
+    reset(){
         var steps = this.deck.getCurrentSlide().querySelectorAll(".step, .step-done");
         this.groups = [];
         this.current = -1;
@@ -140,9 +139,9 @@ var Presenter = Presenter || {};
         var nSteps = this.groups.length;
         this.deck.ticker.set(nSteps);
         this.setData();
-    };
+    }
 
-    StepManager.prototype.findGroup = function(group){
+    findGroup(group){
         var found = false;
         var searchIndex = 0;
 
@@ -158,6 +157,4 @@ var Presenter = Presenter || {};
         }
         return null;
     }
-
-    namespace.StepManager = StepManager;
-}(Presenter));
+}

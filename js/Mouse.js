@@ -3,42 +3,42 @@
  */
 var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+/**
+ * @class Mouse
+ */
+class Mouse{
 
-    /**
-     * @class Mouse
-     */
-    var Mouse = {};
+    constructor(){
+        this.enable();
+    }
 
-    Mouse.enable = function()
-    {
+    enable(){
         console.log("[Mouse] Enabled");
 
         if (window.addEventListener) {    // all browsers except IE before version 9
             // Internet Explorer, Opera, Google Chrome and Safari
-            document.querySelector(".slideDeck").addEventListener("mousewheel", Mouse.handleMouseWheel, false);
+            document.querySelector(".slideDeck").addEventListener("mousewheel", (e) => this.handleMouseWheel(e), false);
 
             // Firefox
             // Scroll information is stored in e.detail. Is '3' for scrollDown and '-3' for scrollUp.
-            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll", Mouse.handleDOMMouseScroll, false);
+            document.querySelector(".slideDeck").addEventListener("DOMMouseScroll", (e) => this.handleDOMMouseScroll(e), false);
         }
-    };
+    }
 
-    Mouse.handleMouseWheel = function(e){
+    handleMouseWheel(e){
         console.debug("mousewheel");
-        Mouse.scrollHandler(e.wheelDelta);
-    };
+        this.scrollHandler(e.wheelDelta);
+    }
 
-    Mouse.handleDOMMouseScroll = function(e){
+    handleDOMMouseScroll(e){
         console.debug("DOMMouseScroll");
-        Mouse.scrollHandler(-e.detail);
-    };
+        this.scrollHandler(-e.detail);
+    }
 
     /**
      * @param wheelData Negative number on scrollUp, positive number on scrollDown.
      */
-    Mouse.scrollHandler = function(wheelDelta){
+    scrollHandler(wheelDelta){
         var action = "";
         if(wheelDelta < 0){
             action = "next";
@@ -47,16 +47,12 @@ var Presenter = Presenter || {};
             action = "previous"
         }
 
-        global.postal.channel("slides").publish("navigator", {action: action});
+        window.postal.channel("slides").publish("navigator", {action: action});
     }
 
-    Mouse.disable = function()
-    {
+    disable(){
         console.log("[Mouse] Disabled");
-        document.querySelector(".slideDeck").removeEventListener("mousewheel", Mouse.handleMouseWheel, false);
-        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  Mouse.handleDOMMouseScroll, false);
-    };
-
-    //Make constructor visible in global space.
-    global.Presenter.Mouse = Mouse;
-}(window));
+        document.querySelector(".slideDeck").removeEventListener("mousewheel", handleMouseWheel, false);
+        document.querySelector(".slideDeck").removeEventListener("DOMMouseScroll",  handleDOMMouseScroll, false);
+    }
+}

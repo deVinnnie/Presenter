@@ -3,59 +3,50 @@
  */
  var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+class Navigator{
     /**
      * @class Navigator
      * @constructor
      */
-    function Navigator(){}
-
-    Navigator.actions = new Array();
+    constructor(){
+        this.actions = [];
+    }
 
     /**
      * @method init
      * @static
      */
-    Navigator.init = function(){
+    init(actions){
         var channel = postal.channel("slides");
-        channel.subscribe("navigator", Navigator.handle);
-        channel.subscribe("navigator-external", Navigator.handle);
+        channel.subscribe("navigator", (d) => { this.handle (d);});
+        channel.subscribe("navigator-external", (d) => { this.handle(d);});
+        
+        this.registerAll(actions);
     }
 
     /**
      * @method handle
      * @static
      */
-    Navigator.handle = function(data){
+    handle(data){
         var action = data.action;
         console.log("[Navigator] Handling " + action);
-        Navigator.actions[action]();
+        this.actions[action]();
     }
 
     /**
      * @method register
      * @static
      */
-    Navigator.register = function(key, action){
+    register(key, action){
         console.log("[Navigator] " + key + " " + "registered.");
-        Navigator.actions[key] = action;
+        console.debug("[DEBUG]" + action);
+        this.actions[key] = action;
     }
 
-    /**
-     * @method registerMap
-     * @param actions Array of objects with key and action properties.
-     * @static
-     */
-    Navigator.registerMap = function(actions){
-        for(var i = 0; i < actions.length; i++){
-            var key = actions[i].key;
-            var action = actions[i].action;
-            Navigator.actions[key] = action;
-            console.log("[Navigator] " + key + " " + "registered.");
+    registerAll(actions){
+        for(var p in actions){
+            this.register(p, actions[p]);
         }
     }
-
-    //Make constructor visible in global space.
-    global.Presenter.Navigator = Navigator;
-}(window));
+}

@@ -3,13 +3,12 @@
  */
  var Presenter = Presenter || {};
 
-(function(global) {
-    "use strict";
+class Overview{
     /**
      * @class Overview
      * @constructor
      */
-    function Overview(deck){
+    constructor(deck){
         this.active = false;
         this.deck = deck;
     }
@@ -20,7 +19,7 @@
      *
      * @method toggle
      */
-    Overview.prototype.toggle = function(){
+    toggle(){
         if (this.active)
         {
             this.hide();
@@ -31,12 +30,11 @@
         }
     }
 
-    var PREFIX = Presenter.PREFIX;
-
     /**
      *  @method show
      */
-    Overview.prototype.show = function() {
+    show() {
+        let PREFIX = Presenter.PREFIX;
         this.active = true;
         var deck = this.deck;
         var settings = Presenter.settings;
@@ -90,7 +88,7 @@
     /**
      * @method hide
      */
-    Overview.prototype.hide = function() {
+    hide() {
         this.active = false;
         var deck = this.deck;
         var settings = Presenter.settings;
@@ -124,18 +122,9 @@
      * @method onSelectSlide
      * @param event
      */
-    Overview.prototype.onSelectSlide = function(event) {
+    onSelectSlide(event) {
         var target = event.currentTarget;
         this.deck.gotoByNumber(this.deck.getSlideNmb(target));
         this.hide();
     }
-
-    //Make constructor visible in global space.
-    global.Presenter.Overview = Overview;
-}(window));
-
-Presenter.Navigator.register("overview",
-    function(){
-        Presenter.overview.toggle();
-    }
-);
+}

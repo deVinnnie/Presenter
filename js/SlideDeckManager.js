@@ -28,24 +28,32 @@
         //Hook up eventhandlers.
         window.addEventListener("resize", Presenter.onWindowResized);
 
+        addExtraHTMLElements();
+        createDeck();
+
         //Initialize input methods.
         if(typeof Hammer != 'undefined'){
             //Use Touch input if the Hammer.js library is available.
-            Presenter.Touch.enable();
+            Presenter.touch = new Touch();
+            Presenter.touch.enable();
         }
-        Presenter.keyboard = new Presenter.Keyboard();
-        Presenter.Mouse.enable();
+        deck.keyboard = new Keyboard();
+        deck.mouse = new Mouse();
 
-        addExtraHTMLElements();
-        createDeck();
+        
         Presenter.onWindowResized(); //Manually trigger resize event to set the initial scale right.
 
         //Overview
         if(typeof Presenter.Overview != 'undefined'){
-            Presenter.overview = new Presenter.Overview(deck);
+            Presenter.overview = new Overview(deck);
         }
 
-        Presenter.Navigator.init();
+        deck.navigator = new Navigator();
+        deck.navigator.init();
+        deck.navigator.registerAll(routes);
+        
+        deck.curtain = new Curtain();
+        
         window.postal.channel("slides").publish("slide-changed");
         window.console.timeEnd("setup");
     }
@@ -97,22 +105,22 @@
             currentSlide = parseInt(slideNumber);
         }
 
-        deck = Presenter.deck = new Presenter.SlideDeck(document.querySelectorAll(".slide"), currentSlide);
+        deck = Presenter.deck = new SlideDeck(document.querySelectorAll(".slide"), currentSlide);
         var computedStyle = document.defaultView.getComputedStyle(deck.slides[0], "");
         deck.slideWidth = parseInt(computedStyle.getPropertyValue("width"));
         deck.slideHeight = parseInt(computedStyle.getPropertyValue("height"));
 
         var t = deck.currentSlide - 2;
-        for (var i = 0; i < Presenter.SlideDeck.SLIDE_STATES.length; i++, t++) {
+        for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, t++) {
             if (t > 0 && t <= deck.nSlides) {
-                deck.getSlide(t).classList.add(Presenter.SlideDeck.SLIDE_STATES[i]);
+                deck.getSlide(t).classList.add(SlideDeck.SLIDE_STATES[i]);
             }
 
             //Store Original Transformation
             //Add dummy slide to DOM to get the style associated.
             $("body").append(
                 $("<div/>")
-                        .attr("class", Presenter.SlideDeck.SLIDE_STATES[i])
+                        .attr("class", SlideDeck.SLIDE_STATES[i])
                         .attr("id", "test")
             );
 
@@ -122,7 +130,7 @@
                 slide_style = "";
             }
 
-            SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] = slide_style;
+            SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] = slide_style;
 
             //Remove Dummy.
             $("#test").remove();
@@ -194,11 +202,11 @@
 
         scale = Math.round(scale*1000)/1000; //Round to 3 decimal places.
 
-        for (var i = 0; i < Presenter.SlideDeck.SLIDE_STATES.length; i++) {
-            styles += "." + Presenter.SlideDeck.SLIDE_STATES[i] + "{\n";
+        for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
+            styles += "." + SlideDeck.SLIDE_STATES[i] + "{\n";
             for (var j = 0; j < PREFIX.length; j++) {
                 styles += PREFIX[j] + "transform: scale3d(" + scale + "," + scale + ",1)" + " ";
-                styles += SLIDE_TRANSFORMS[Presenter.SlideDeck.SLIDE_STATES[i]] +";\n";
+                styles += SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] +";\n";
             }
             styles += "left:" + offsetLeft + "px;\n";
             styles += "top: " + offsetTop + "px;\n";
