@@ -3,7 +3,7 @@
  */
 var Presenter = Presenter || {};
 
-class Ticker{
+export default class Ticker{
 
     /**
      * The Ticker indicates the number of steps (hidden elements) remaining on the current slide.

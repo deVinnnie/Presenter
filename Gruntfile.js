@@ -81,6 +81,20 @@ module.exports = function(grunt) {
                 }
             }
         },
+        esdoc : {
+            dist : {
+                options: {
+                    source: './js',
+                    destination: './doc'
+                }
+            }
+        },
+        rollup: {
+            options: {},
+            files: {
+                 'dest':'dist/bundle.js',
+                 'src' : 'js/index.js', // Only one source file is permitted 
+               }
 
         clean: ["dist/*", "doc/*"]
     });
@@ -92,9 +106,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-esdoc');
+    grunt.loadNpmTasks('grunt-rollup');
 
     //Set Default task.
     grunt.registerTask('default', ['concat', 'less']);
     
     grunt.registerTask('serve', ['connect', 'watch']);
+    grunt.registerTask('doc', 'esdoc');
 };

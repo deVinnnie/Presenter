@@ -3,7 +3,7 @@
  */
 var Presenter = Presenter || {};
 
-class StepManager{
+export default class StepManager{
     /**
      * Controls the visibility and transitions of steps.
      *

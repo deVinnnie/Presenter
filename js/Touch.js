@@ -3,7 +3,7 @@
  */
  var Presenter = Presenter || {};
 
-class Touch{
+export default class Touch{
     /**
      * @class Touch
      * @constructor

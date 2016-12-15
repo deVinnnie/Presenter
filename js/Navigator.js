@@ -3,7 +3,7 @@
  */
  var Presenter = Presenter || {};
 
-class Navigator{
+export default class Navigator{
     /**
      * @class Navigator
      * @constructor

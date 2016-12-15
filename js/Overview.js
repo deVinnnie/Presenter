@@ -3,7 +3,7 @@
  */
  var Presenter = Presenter || {};
 
-class Overview{
+export default class Overview{
     /**
      * @class Overview
      * @constructor

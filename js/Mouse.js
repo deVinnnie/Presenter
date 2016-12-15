@@ -6,7 +6,7 @@ var Presenter = Presenter || {};
 /**
  * @class Mouse
  */
-class Mouse{
+export default class Mouse{
 
     constructor(){
         this.enable();

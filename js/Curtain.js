@@ -4,7 +4,7 @@
  */
 var Presenter = Presenter || {};
 
-class Curtain{
+export default class Curtain{
     /**
      * @class Curtain
      * @constructor

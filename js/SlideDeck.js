@@ -4,7 +4,7 @@
  */
 var Presenter = Presenter || {};
 
-class SlideDeck{
+export default class SlideDeck{
     /**
      * SlideDeck
      *

@@ -3,7 +3,7 @@
  */
  var Presenter = Presenter || {};
 
-class Keyboard{
+export default class Keyboard{
     /**
      * @class Keyboard
      * @constructor

@@ -3,7 +3,7 @@
  */
 var Presenter = Presenter || {};
 
-class SyncClient{
+export default class SyncClient{
     /**
      * Client side functions for synchronizing slide progress with sync_server.
      *
