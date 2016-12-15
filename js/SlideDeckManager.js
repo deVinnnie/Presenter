@@ -202,16 +202,14 @@
         scale = Math.round(scale*1000)/1000; //Round to 3 decimal places.
 
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
-            styles += "." + SlideDeck.SLIDE_STATES[i] + "{\n";
-            styles += `transform: scale3d(${scale},${scale},1)`;
-            styles += " ";
-            styles += SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] +";\n";
-            
-            styles += `left: ${offsetLeft}px;\n`;
-            styles += `top: ${offsetTop}px;\n`;
-            styles += "}\n";
+            let state = SlideDeck.SLIDE_STATES[i];
+            styles += `.${state}{
+                transform: scale3d(${scale},${scale},1) ${SLIDE_TRANSFORMS[state]};
+                left: ${offsetLeft}px;
+                top: ${offsetTop}px;
+            }`;
         }
-        styles+="\n";
+        styles+="}\n";
 
         document.getElementById('style').innerHTML = styles;
     }
