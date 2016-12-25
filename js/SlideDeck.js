@@ -1,9 +1,3 @@
-/**
- * @module Presenter
- * @author Vincent Ceulemans
- */
-var Presenter = Presenter || {};
-
 export default class SlideDeck{
     /**
      * SlideDeck
@@ -170,15 +164,15 @@ export default class SlideDeck{
     gotoById(id) {
         this.channel.publish("pre-slide-changed");
         var n = this.currentSlide - 2;
-        for (var i = 0; i < this.SLIDE_STATES.length; i++, n++) {
+        for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, n++) {
             this.clear(n);
         }
 
         var slideN = this.getSlideNmb(document.getElementById(id));
         this.currentSlide = slideN;
         slideN -= 2;
-        for (var i = 0; i < this.SLIDE_STATES.length; i++, slideN++) {
-            this.updateSlide(slideN, this.SLIDE_STATES[i]);
+        for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, slideN++) {
+            this.updateSlide(slideN, SlideDeck.SLIDE_STATES[i]);
         }
         this.channel.publish("slide-changed", {type: "goto", slide: this.currentSlide});
     }
@@ -193,7 +187,7 @@ export default class SlideDeck{
         this.currentSlide = n;
         var t = 0;
         for (var i = this.currentSlide - 2; i <= this.currentSlide + 2; i++, t++) {
-            this.updateSlide(i, Presenter.SlideDeck.SLIDE_STATES[t]);
+            this.updateSlide(i, SlideDeck.SLIDE_STATES[t]);
         }
         this.channel.publish("slide-changed", {type: "goto", slide: this.currentSlide});
     }

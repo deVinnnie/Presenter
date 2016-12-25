@@ -1,8 +1,3 @@
-/**
- * @module Presenter
- */
-var Presenter = Presenter || {};
-
 export default class Ticker{
 
     /**

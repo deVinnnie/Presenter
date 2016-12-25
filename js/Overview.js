@@ -1,16 +1,12 @@
-/**
- * @module Presenter
- */
- var Presenter = Presenter || {};
-
 export default class Overview{
     /**
      * @class Overview
      * @constructor
      */
-    constructor(deck){
+    constructor(deck, settings){
         this.active = false;
         this.deck = deck;
+        this.settings = settings;
     }
 
     /**
@@ -36,7 +32,6 @@ export default class Overview{
     show() {
         this.active = true;
         var deck = this.deck;
-        var settings = Presenter.settings;
         var channel = window.postal.channel("slides");
 
         deck.mouse.disable();
@@ -88,7 +83,6 @@ export default class Overview{
     hide() {
         this.active = false;
         var deck = this.deck;
-        var settings = Presenter.settings;
         var channel = window.postal.channel("slides");
 
         deck.mouse.enable();
@@ -108,6 +102,7 @@ export default class Overview{
             deck.updateSlide(i, SlideDeck.SLIDE_STATES[t]);
         }
 
+        // TODO: Fix it.
         window.addEventListener("resize", Presenter.onWindowResized);
         $(window).trigger('resize');
         channel.publish("slide-changed");

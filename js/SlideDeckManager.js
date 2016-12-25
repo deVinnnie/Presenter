@@ -1,22 +1,21 @@
-/**
- * @module Presenter
- */
- var Presenter = Presenter || {};
-
-(function(namespace, window) {
-    "use strict";
-    var deck;
-    var SLIDE_TRANSFORMS = {};
-
+export default class Presenter{
+    
+    constructor(){
+        var SLIDE_TRANSFORMS = {};
+        
+        
+        this.curtain = new Curtain();
+    }
+    
     /**
      * Starts the presentation.
      *
      * @method init
      * @param {object} config Configuration object
      */
-    function init(config) {
+    init(config){
         window.console.time("setup");
-        Presenter.settings = config;
+        this.settings = config;
 
         //Redefine the log functions of console if the console object doesn't exist (ex. IE)
         if(typeof console == "undefined"){
@@ -25,26 +24,26 @@
         }
 
         //Hook up eventhandlers.
-        window.addEventListener("resize", Presenter.onWindowResized);
+        window.addEventListener("resize", this.onWindowResized);
 
-        addExtraHTMLElements();
-        createDeck();
+        this.addExtraHTMLElements();
+        this.createDeck();
 
         //Initialize input methods.
         if(typeof Hammer != 'undefined'){
             //Use Touch input if the Hammer.js library is available.
-            Presenter.touch = new Touch();
-            Presenter.touch.enable();
+            deck.touch = new Touch();
+            deck.touch.enable();
         }
         deck.keyboard = new Keyboard();
         deck.mouse = new Mouse();
-
+        deck.syncClient = new SyncClient(deck);
         
-        Presenter.onWindowResized(); //Manually trigger resize event to set the initial scale right.
+        this.onWindowResized(); //Manually trigger resize event to set the initial scale right.
 
         //Overview
         if(typeof Overview != 'undefined'){
-            Presenter.overview = new Overview(deck);
+            this.overview = new Overview(deck);
         }
 
         deck.navigator = new Navigator();
@@ -56,7 +55,7 @@
         window.postal.channel("slides").publish("slide-changed");
         window.console.timeEnd("setup");
     }
-
+    
     /**
      * Adds needed HTML markup to the DOM.
      *
@@ -69,7 +68,7 @@
      *
      *  @method addExtraHTMLElements
      */
-    function addExtraHTMLElements(){
+    addExtraHTMLElements(){
         $("body")
                 .append($("<div/>").attr("id", "curtain"))
                 .append($("<div/>").attr("id", "notes-display"))
@@ -86,13 +85,13 @@
         //Add the "slide" class to each section.
         $(".slideDeck > section").addClass("slide");
     }
-
+    
     /**
      * Create and initialize a new deck object
      *
      * @method createDeck
      */
-    function createDeck(){
+    createDeck(){
         //Check for slide number in location.hash
         var currentSlide;
         if (location.hash === "") {
@@ -135,7 +134,7 @@
             $("#test").remove();
         }
     }
-
+    
     /**
      * Resizes slidedeck when window is resized.
      *
@@ -170,7 +169,7 @@
      *       }
      *   }
      */
-    Presenter.onWindowResized = function(){
+    onWindowResized(){
         var styles = "@media screen{\n";
 
 
@@ -190,8 +189,8 @@
         var scale = Math.min(window.innerHeight / deck.slideHeight, window.innerWidth / deck.slideWidth);
 
         //Set a prescale if a "scale" parameter was included in the config object.
-        if(Presenter.settings.hasOwnProperty("scale")){
-            scale *= Presenter.settings.scale;
+        if(this.settings.hasOwnProperty("scale")){
+            scale *= this.settings.scale;
         }
 
         //The offset ensures that the slide is always in the center of the screen.
@@ -212,7 +211,5 @@
         styles+="}\n";
 
         document.getElementById('style').innerHTML = styles;
-    }
-
-    window.Presenter.init = init;
-}(Presenter, window));
+    }    
+}

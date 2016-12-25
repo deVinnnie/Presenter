@@ -1,9 +1,3 @@
-/**
- * @module Presenter
- * @author Vincent Ceulemans
- */
-var Presenter = Presenter || {};
-
 export default class Curtain{
     /**
      * @class Curtain
@@ -41,5 +35,3 @@ export default class Curtain{
         this.active = !this.active; //Toggle value.
     }
 }
-
-Presenter.Curtain = new Curtain();

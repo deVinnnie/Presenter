@@ -1,8 +1,3 @@
-/**
- * @module Presenter
- */
-var Presenter = Presenter || {};
-
 export default class SyncClient{
     /**
      * Client side functions for synchronizing slide progress with sync_server.
@@ -10,7 +5,10 @@ export default class SyncClient{
      * @class SyncClient
      * @constructor
      */
-    constructor(){}
+    constructor(deck){
+        this.keyboard = deck.keyboard;
+        this.mouse = deck.mouse;
+    }
 
     /**
      * Register this instance of the presentation as monitor.
@@ -61,8 +59,8 @@ export default class SyncClient{
             console.error('[SyncClient] WebSocket Error ' + error);
         };
 
-        global.Presenter.keyboard.disable();
-        global.Presenter.Mouse.disable();
+        this.keyboard.disable();
+        this.mouse.disable();
 
         connection.onmessage = function(e) {
             window.postal.channel("slides").publish("navigator-external", {action: e.data});
@@ -114,5 +112,3 @@ export default class SyncClient{
         }
     }
 }
-
-Presenter.syncClient = new SyncClient();

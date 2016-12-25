@@ -1,9 +1,4 @@
 /**
- * @module Presenter
- */
-var Presenter = Presenter || {};
-
-/**
  * @class Mouse
  */
 export default class Mouse{
