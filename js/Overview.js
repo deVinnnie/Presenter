@@ -3,10 +3,11 @@ export default class Overview{
      * @class Overview
      * @constructor
      */
-    constructor(deck, settings){
+    constructor(deck, settings, presenter){
         this.active = false;
         this.deck = deck;
         this.settings = settings;
+        this.presenter = presenter;
     }
 
     /**
@@ -58,7 +59,7 @@ export default class Overview{
                   }`;
 
         $("#style").append(style);
-        window.removeEventListener("resize", Presenter.onWindowResized);
+        window.removeEventListener("resize", this.presenter.onWindowResized);
 
         $(".slideDeck")
                 .addClass("overview")
@@ -103,7 +104,7 @@ export default class Overview{
         }
 
         // TODO: Fix it.
-        window.addEventListener("resize", Presenter.onWindowResized);
+        window.addEventListener("resize", this.presenter.onWindowResized);
         $(window).trigger('resize');
         channel.publish("slide-changed");
     }

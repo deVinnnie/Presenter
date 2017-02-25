@@ -1,7 +1,18 @@
-export default class Presenter{
+import Navigator from './Navigator.js'
+import SlideDeck from './SlideDeck.js';
+import Keyboard from './Keyboard.js';
+import Mouse from './Mouse.js';
+import Curtain from './Curtain.js';
+import Touch from './Touch.js';
+import { routes } from './Routes.js';
+import Overview from './Overview.js';
+import SyncClient from './SyncClient.js';
+
+
+class Presenter{
     
     constructor(){
-        var SLIDE_TRANSFORMS = {};
+        this.SLIDE_TRANSFORMS = {};
         
         
         this.curtain = new Curtain();
@@ -24,10 +35,12 @@ export default class Presenter{
         }
 
         //Hook up eventhandlers.
-        window.addEventListener("resize", this.onWindowResized);
+        window.addEventListener("resize", this.onWindowResized.bind(this));
 
         this.addExtraHTMLElements();
         this.createDeck();
+        
+        var deck = this.deck;
 
         //Initialize input methods.
         if(typeof Hammer != 'undefined'){
@@ -75,7 +88,7 @@ export default class Presenter{
                 .append(
                     $("<div/>")
                         .attr("id", "ticker")
-                        .attr("class", Presenter.settings["ticker-position"])
+                        .attr("class", this.settings["ticker-position"])
                         .append(
                             $("<ul/>")
                             .attr("id", "ticks")
@@ -103,7 +116,8 @@ export default class Presenter{
             currentSlide = parseInt(slideNumber);
         }
 
-        deck = Presenter.deck = new SlideDeck(document.querySelectorAll(".slide"), currentSlide);
+        this.deck = new SlideDeck(document.querySelectorAll(".slide"), currentSlide);
+        var deck = this.deck;
         var computedStyle = document.defaultView.getComputedStyle(deck.slides[0], "");
         deck.slideWidth = parseInt(computedStyle.getPropertyValue("width"));
         deck.slideHeight = parseInt(computedStyle.getPropertyValue("height"));
@@ -128,7 +142,7 @@ export default class Presenter{
                 slide_style = "";
             }
 
-            SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] = slide_style;
+            this.SLIDE_TRANSFORMS[SlideDeck.SLIDE_STATES[i]] = slide_style;
 
             //Remove Dummy.
             $("#test").remove();
@@ -170,6 +184,7 @@ export default class Presenter{
      *   }
      */
     onWindowResized(){
+        var deck = this.deck;
         var styles = "@media screen{\n";
 
 
@@ -203,7 +218,7 @@ export default class Presenter{
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
             let state = SlideDeck.SLIDE_STATES[i];
             styles += `.${state}{
-                transform: scale3d(${scale},${scale},1) ${SLIDE_TRANSFORMS[state]};
+                transform: scale3d(${scale},${scale},1) ${this.SLIDE_TRANSFORMS[state]};
                 left: ${offsetLeft}px;
                 top: ${offsetTop}px;
             }`;
@@ -213,3 +228,13 @@ export default class Presenter{
         document.getElementById('style').innerHTML = styles;
     }    
 }
+
+window.onload = function() {
+    window.presenter = new Presenter();
+    presenter.init({
+            "thumbnail_width": 150,
+            "ticker-position": "right",
+            /*"scale": 0.95*/
+            "scale": 0.75
+        });
+};

@@ -1,25 +1,25 @@
 //Register Actions with the navigator.
-var routes = {
+export var routes = {
     "curtain.toggle.white" : () => {
-        Presenter.deck.curtain.toggle("#FFF");
+        presenter.deck.curtain.toggle("#FFF");
     },
     "curtain.toggle.black" : () => {
-        Presenter.deck.curtain.toggle("#000");
+        presenter.deck.curtain.toggle("#000");
     },
     "next" : () => {
-        Presenter.deck.next();
+        presenter.deck.next();
     },
     "previous" : () => {
-        Presenter.deck.previous();
+        presenter.deck.previous();
     },
     "toggle_pointer" : () => {
-        Presenter.deck.togglePointer();
+        presenter.deck.togglePointer();
     },
     "pointer.show" : () => {
-        Presenter.deck.showPointer();
+        presenter.deck.showPointer();
     },
     "pointer.hide" : () => {
-        Presenter.deck.hidePointer();
+        presenter.deck.hidePointer();
     },
     "toggle_notes" : () => {
         document.getElementById('notes-display').classList.toggle('visible');
@@ -31,15 +31,15 @@ var routes = {
         document.getElementById('notes-display').classList.add('visible');
     },
     "sync.monitor" : () => {
-        Presenter.syncClient.monitor();
+        presenter.syncClient.monitor();
     },
     "sync.listen" : () => {
-        Presenter.syncClient.listen();
+        presenter.syncClient.listen();
     },
     "sync.connect" : () => {
-        Presenter.syncClient.connect();
+        presenter.syncClient.connect();
     },
     "overview" : () => {
-        Presenter.overview.toggle();
+        presenter.overview.toggle();
     }
 };

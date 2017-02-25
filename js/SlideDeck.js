@@ -1,3 +1,5 @@
+import Ticker from './Ticker.js';
+import StepManager from './StepManager.js';
 export default class SlideDeck{
     /**
      * SlideDeck

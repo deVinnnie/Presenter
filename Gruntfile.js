@@ -93,7 +93,7 @@ module.exports = function(grunt) {
             options: {},
             files: {
                  'dest':'dist/bundle.js',
-                 'src' : 'js/index.js', // Only one source file is permitted 
+                 'src' : 'js/Presenter.js', // Only one source file is permitted 
                }
 
         clean: ["dist/*", "doc/*"]
