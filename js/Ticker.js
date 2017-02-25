@@ -30,7 +30,7 @@ export default class Ticker{
      */
     renew() {
         var nSteps = this.deck.getCurrentSlide().querySelectorAll(".step").length;
-        var nTicks = document.getElementById("ticks").childNodes.length;
+        var nTicks = this.count();
         var deltaSteps = Math.abs(nSteps - nTicks);
 
         //Determine wether to increase or decrease in order to match the correct number of ticks.
@@ -83,5 +83,12 @@ export default class Ticker{
                 $("<span />").attr("class", "tick")
             )
         );
+    }
+    
+    /**
+    * Return the number of ticks remaining.
+    */
+    count(){
+        return document.getElementById("ticks").childNodes.length;
     }
 }

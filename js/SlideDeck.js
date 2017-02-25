@@ -1,5 +1,6 @@
 import Ticker from './Ticker.js';
 import StepManager from './StepManager.js';
+
 export default class SlideDeck{
     /**
      * SlideDeck
@@ -131,8 +132,7 @@ export default class SlideDeck{
      * @method next
      */
     next() {
-        var nSteps = this.getCurrentSlide().querySelectorAll(".step").length;
-        if (nSteps != 0){
+        if (this.ticker.count() != 0){
             this.stepManager.nextStep();
         }
         else{
