@@ -1,4 +1,4 @@
-export default class StepManager{
+export default class Steps{
     /**
      * Controls the visibility and transitions of steps.
      *

@@ -1,5 +1,5 @@
 import Ticker from './Ticker.js';
-import StepManager from './StepManager.js';
+import Steps from './Steps.js';
 
 export default class SlideDeck{
     /**
@@ -16,7 +16,7 @@ export default class SlideDeck{
         this.currentSlide = currentSlide;
         this.pointer = false;
         this.ticker = new Ticker(this);
-        this.stepManager = new StepManager(this);
+        this.steps = new Steps(this);
 
         this.initProgressBar();
         this.initVideos();
@@ -133,7 +133,7 @@ export default class SlideDeck{
      */
     next() {
         if (this.ticker.count() != 0){
-            this.stepManager.nextStep();
+            this.steps.nextStep();
         }
         else{
             this.nextSlide();
@@ -150,7 +150,7 @@ export default class SlideDeck{
     previous() {
         var nSteps = this.getCurrentSlide().querySelectorAll(".step-done").length;
         if (nSteps >= 1) {
-            this.stepManager.previousStep();
+            this.steps.previousStep();
         }
         else {
             this.previousSlide();
