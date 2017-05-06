@@ -27,6 +27,8 @@
     "hammerjs": "*"
   },
   "scripts": {
-    "serve": "grunt serve"
+    "serve" : "grunt serve",
+    "test" : "grunt"
+  
   }
 }
