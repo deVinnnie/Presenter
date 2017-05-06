@@ -13,9 +13,6 @@ import SlideScaler from './SlideScaler.js';
 class Presenter{
     
     constructor(){
-        
-        
-        
         this.curtain = new Curtain();
     }
     
