@@ -95,6 +95,8 @@ module.exports = function(grunt) {
                  'dest':'dist/bundle.js',
                  'src' : 'js/Presenter.js', // Only one source file is permitted 
                }
+               
+        },
 
         clean: ["dist/*", "doc/*"]
     });
@@ -110,7 +112,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-rollup');
 
     //Set Default task.
-    grunt.registerTask('default', ['concat', 'less']);
+    grunt.registerTask('default', ['rollup', 'less']);
     
     grunt.registerTask('serve', ['connect', 'watch']);
     grunt.registerTask('doc', 'esdoc');
