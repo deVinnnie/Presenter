@@ -20,15 +20,14 @@
     "grunt-rollup": "^1.0.1"
   },
   "dependencies": {
+    "hammerjs": "*",
     "jquery": "*",
-    "progress-js": "*",
+    "lesshat": "^4.1.0",
     "postal": "*",
-    "lesshat": "*",
-    "hammerjs": "*"
+    "progress.js": "git://github.com/usablica/progress.js.git"
   },
   "scripts": {
-    "serve" : "grunt serve",
-    "test" : "grunt"
-  
+    "serve": "grunt serve",
+    "test": "grunt"
   }
 }
