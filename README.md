@@ -1,6 +1,8 @@
 Presenter
 =========
 
+[![Build Status](https://travis-ci.org/deVinnnie/Presenter.svg?branch=master)](https://travis-ci.org/deVinnnie/Presenter)
+
 An HTML based slidedeck.
 
 Controls
@@ -15,4 +17,3 @@ Controls
 * `m` : Switch to master mode
 * `n` : Toggle Notes
 * `p` : Show/Hide Mouse Pointer
-
