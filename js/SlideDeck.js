@@ -1,5 +1,7 @@
 import Ticker from './Ticker.js';
 import Steps from './Steps.js';
+import Notes from './Notes.js';
+import Curtain from './Curtain.js';
 
 export default class SlideDeck{
     /**
@@ -10,14 +12,18 @@ export default class SlideDeck{
      * @param {array} slides List of slides in the deck.
      * @param {int} currentSlide The first slide to show. (Starts at 1)
      */
-    constructor(slides, currentSlide) {
+    constructor(slides, currentSlide, settings) {
         this.slides = slides;
         this.nSlides = this.slides.length;
         this.currentSlide = currentSlide;
+        this.settings = settings;
+        
         this.pointer = false;
         this.ticker = new Ticker(this);
         this.steps = new Steps(this);
-
+        this.notes = new Notes(this);
+        this.curtain = new Curtain();
+        
         this.initProgressBar();
         this.initVideos();
 
@@ -30,8 +36,6 @@ export default class SlideDeck{
         /*Actions for new slide*/
         this.channel.subscribe("slide-changed", this.updateLocationHash).context(this);
         this.channel.subscribe("slide-changed", this.updateProgressBar).context(this);
-
-        this.channel.subscribe("slide-changed", this.refreshNotes).context(this);
         this.channel.subscribe("slide-changed", this.autoPlayVideo).context(this);
     }
 
@@ -237,25 +241,6 @@ export default class SlideDeck{
             
             this.currentSlide--;
             this.channel.publish("slide-changed", {type: "previous" , slide: this.currentSlide});
-        }
-    }
-
-    /**
-     * Update notes for current slide.
-     *
-     * Reloads the notes stored within div.notes into the notes display.
-     *
-     * @method refreshNotes
-     */
-    refreshNotes() {
-        var notesDisplay = document.getElementById('notes-display');
-        //Remove any content that was previously present in the notes-display.
-        notesDisplay.innerHTML = "";
-
-        var currentSlide = this.getCurrentSlide();
-        if (currentSlide.querySelector(".notes")) {
-            var notes = currentSlide.querySelector(".notes");
-            notesDisplay.innerHTML = notes.innerHTML;
         }
     }
 

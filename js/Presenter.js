@@ -2,7 +2,6 @@ import Navigator from './Navigator.js'
 import SlideDeck from './SlideDeck.js';
 import Keyboard from './Keyboard.js';
 import Mouse from './Mouse.js';
-import Curtain from './Curtain.js';
 import Touch from './Touch.js';
 import { routes } from './Routes.js';
 import Overview from './Overview.js';
@@ -12,9 +11,7 @@ import SlideScaler from './SlideScaler.js';
 
 class Presenter{
     
-    constructor(){
-        this.curtain = new Curtain();
-    }
+    constructor(){}
     
     /**
      * Starts the presentation.
@@ -32,11 +29,8 @@ class Presenter{
             console.log = console.error = console.info = console.debug = function(){};
         }
         
-        this.addExtraHTMLElements();
-        this.createDeck();
+        var deck = this.createDeck();
         
-        var deck = this.deck;
-
         //Initialize input methods.
         if(typeof Hammer != 'undefined'){
             //Use Touch input if the Hammer.js library is available.
@@ -61,40 +55,8 @@ class Presenter{
         deck.navigator.init();
         deck.navigator.registerAll(routes);
         
-        deck.curtain = new Curtain();
-        
         window.postal.channel("slides").publish("slide-changed");
         window.console.timeEnd("setup");
-    }
-    
-    /**
-     * Adds needed HTML markup to the DOM.
-     *
-     * <div id="curtain"></div>
-     * <div id="notes-display"></div>
-     * <div id="ticker" class="{ticker-position}">
-     *    <ul id="ticks">
-     *    </ul>
-     * </div>
-     *
-     *  @method addExtraHTMLElements
-     */
-    addExtraHTMLElements(){
-        $("body")
-                .append($("<div/>").attr("id", "curtain"))
-                .append($("<div/>").attr("id", "notes-display"))
-                .append(
-                    $("<div/>")
-                        .attr("id", "ticker")
-                        .attr("class", this.settings["ticker-position"])
-                        .append(
-                            $("<ul/>")
-                            .attr("id", "ticks")
-                        )
-                );
-
-        //Add the "slide" class to each section.
-        $(".slideDeck > section").addClass("slide");
     }
     
     /**
@@ -103,6 +65,9 @@ class Presenter{
      * @method createDeck
      */
     createDeck(){
+        //Add the "slide" class to each section.
+        $(".slideDeck > section").addClass("slide");
+        
         //Check for slide number in location.hash
         var currentSlide;
         if (location.hash === "") {
@@ -114,11 +79,13 @@ class Presenter{
             currentSlide = parseInt(slideNumber);
         }
 
-        this.deck = new SlideDeck(document.querySelectorAll(".slide"), currentSlide);
+        this.deck = new SlideDeck(document.querySelectorAll(".slide"), currentSlide, this.settings);
         var deck = this.deck;
         var computedStyle = document.defaultView.getComputedStyle(deck.slides[0], "");
         deck.slideWidth = parseInt(computedStyle.getPropertyValue("width"));
         deck.slideHeight = parseInt(computedStyle.getPropertyValue("height"));
+        
+        return deck;
     }
 }
 

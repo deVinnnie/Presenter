@@ -2,6 +2,8 @@ export default class Curtain{
     /**
      * @class Curtain
      * @constructor
+     *
+     * Adds <div id="curtain"></div> to the DOM.
      */
     constructor(){
         
@@ -13,6 +15,10 @@ export default class Curtain{
          * @property active
          */
         this.active = false;
+        
+        $("body")
+            .append($("<div/>")
+                .attr("id", "curtain"));
     }
 
     /**

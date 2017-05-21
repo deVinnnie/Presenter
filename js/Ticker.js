@@ -3,12 +3,27 @@ export default class Ticker{
     /**
      * The Ticker indicates the number of steps (hidden elements) remaining on the current slide.
      *
+     * Adds following markup to the DOM:
+     * <div id="ticker" class="{ticker-position}">
+     *    <ul id="ticks"></ul>
+     * </div>
+     *
      * @class Ticker
      * @constructor
      * @param {SlideDeck} Reference to SlideDeck object.
      */
     constructor(deck) {
         this.deck = deck;
+        
+        $("body").append(
+            $("<div/>")
+                .attr("id", "ticker")
+                .attr("class", deck.settings["ticker-position"])
+                .append(
+                    $("<ul/>")
+                    .attr("id", "ticks")
+                )
+        );
     }
 
     /**
