@@ -25,8 +25,7 @@ export default class Steps{
         this.groups = [];
         this.current = -1;
 
-        this.channel = postal.channel("slides");
-        this.channel.subscribe("slide-changed", this.reset).context(this);
+        deck.channel.subscribe("slide-changed", this.reset).context(this);
     }
 
     /**

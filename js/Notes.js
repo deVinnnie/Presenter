@@ -5,8 +5,7 @@ export default class Notes{
     constructor(deck) {
         this.deck = deck;
     
-        this.channel = postal.channel("slides");
-        this.channel.subscribe("slide-changed", this.refresh).context(this);
+        deck.channel.subscribe("slide-changed", this.refresh).context(this);
         
         $("body")
             .append($("<div/>")
