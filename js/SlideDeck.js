@@ -18,17 +18,7 @@ export default class SlideDeck{
         this.currentSlide = currentSlide;
         this.settings = settings;
         
-        this.pointer = false;
-        this.ticker = new Ticker(this);
-        this.steps = new Steps(this);
-        this.notes = new Notes(this);
-        this.curtain = new Curtain();
-        
-        this.initProgressBar();
-        this.initVideos();
-
         this.channel = postal.channel("slides");
-
         /*Actions done before slide changes*/
         this.channel.subscribe("pre-slide-changed", this.autoStopVideo).context(this);
         this.channel.subscribe("enter-overview", this.autoStopVideo).context(this);
@@ -37,6 +27,15 @@ export default class SlideDeck{
         this.channel.subscribe("slide-changed", this.updateLocationHash).context(this);
         this.channel.subscribe("slide-changed", this.updateProgressBar).context(this);
         this.channel.subscribe("slide-changed", this.autoPlayVideo).context(this);
+        
+        this.pointer = false;
+        this.ticker = new Ticker(this);
+        this.steps = new Steps(this);
+        this.notes = new Notes(this);
+        this.curtain = new Curtain();
+        
+        this.initProgressBar();
+        this.initVideos();
     }
 
     /*Static*/
