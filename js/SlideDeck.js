@@ -28,7 +28,6 @@ export default class SlideDeck{
         this.channel.subscribe("slide-changed", this.updateProgressBar).context(this);
         this.channel.subscribe("slide-changed", this.autoPlayVideo).context(this);
         
-        this.pointer = false;
         this.ticker = new Ticker(this);
         this.steps = new Steps(this);
         this.notes = new Notes(this);
@@ -301,17 +300,14 @@ export default class SlideDeck{
      * @method togglePointer
      */
     togglePointer() {
-        this.pointer = !this.pointer;
         document.body.classList.toggle("cursor-visible");
     }
 
     showPointer() {
-        this.pointer = true;
         document.body.classList.add("cursor-visible");
     }
     
     hidePointer() {
-        this.pointer = false;
         document.body.classList.remove("cursor-visible");
     }
 
