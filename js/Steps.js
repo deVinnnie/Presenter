@@ -68,7 +68,7 @@ export default class Steps{
         }
 
         this.setData();
-        this.channel.publish("step-changed", {type: "next"});
+        this.deck.channel.publish("step-changed", {type: "next"});
     }
 
     /**
@@ -94,7 +94,7 @@ export default class Steps{
             }
         }
         this.setData();
-        this.channel.publish("step-changed", {type: "previous"});
+        this.deck.channel.publish("step-changed", {type: "previous"});
     }
 
     /**
