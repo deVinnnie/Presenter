@@ -9,34 +9,36 @@
 @media screen{
     .slide{
         opacity: 0;
-    }
+        
+        
+        &[data-state="current"],
+        &[data-state="past"], 
+        &[data-state="far-past"], 
+        &[data-state="future"],
+        &[data-state="far-future"]{
+            display: block;
+            opacity: 0.8;
+        }
+        
+        &[data-state="far-past"]{
+            .transform(translate3d(-2600px,0,0));
+        }
 
-    .currentSlide, .pastSlide, .farPastSlide, .futureSlide, .farFutureSlide{
-        display: block;
-        opacity: 0.8;
-    }
+        &[data-state="past"]{
+            .transform(translate3d(-1300px,0,0));
+        }
+        
+        &[data-state="current"]{
+            opacity: 1;
+            .transform(translate3d(0,0,0));
+        }
 
-    .slide.currentSlide{
-        opacity: 1;
-    }
+        &[data-state="future"]{
+            .transform(translate3d(1300px,0,0));
+        }
 
-    .farPastSlide{
-        .transform(translate3d(-2600px,0,0));
-    }
-
-    .pastSlide{
-        .transform(translate3d(-1300px,0,0));
-    }
-
-    .currentSlide{
-        .transform(translate3d(0,0,0));
-    }
-
-    .futureSlide{
-        .transform(translate3d(1300px,0,0));
-    }
-
-    .farFutureSlide{
-        .transform(translate3d(2600px,0,0));
+        &[data-state="far-future"]{
+            .transform(translate3d(2600px,0,0));
+        }
     }
 }

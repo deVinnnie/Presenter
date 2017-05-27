@@ -15,14 +15,15 @@ export default class SlideScaler{
         var t = deck.currentSlide - 2;
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++, t++) {
             if (t > 0 && t <= deck.nSlides) {
-                deck.getSlide(t).classList.add(SlideDeck.SLIDE_STATES[i]);
+                deck.getSlide(t).dataset.state=SlideDeck.SLIDE_STATES[i];
             }
 
             //Store Original Transformation
             //Add dummy slide to DOM to get the style associated.
             $("body").append(
                 $("<div/>")
-                        .attr("class", SlideDeck.SLIDE_STATES[i])
+                        .attr("class", "slide")
+                        .attr("data-state", SlideDeck.SLIDE_STATES[i])
                         .attr("id", "test")
             );
 
@@ -107,7 +108,7 @@ export default class SlideScaler{
 
         for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
             let state = SlideDeck.SLIDE_STATES[i];
-            styles += `.${state}{
+            styles += `.slide[data-state="${state}"]{
                 transform: scale3d(${scale},${scale},1) ${this.SLIDE_TRANSFORMS[state]};
                 left: ${offsetLeft}px;
                 top: ${offsetTop}px;

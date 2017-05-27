@@ -41,11 +41,11 @@ export default class SlideDeck{
     /*Static*/
     static get SLIDE_STATES(){ 
         return [
-            "farPastSlide",
-            "pastSlide",
-            "currentSlide",
-            "futureSlide",
-            "farFutureSlide"
+            "far-past",
+            "past",
+            "current",
+            "future",
+            "far-future"
         ];
     }
 
@@ -278,10 +278,7 @@ export default class SlideDeck{
     updateSlide(slideNumber, stateName) {
         if (slideNumber > 0 && slideNumber <= this.slides.length) {
             var slide = this.getSlide(slideNumber);
-            for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
-                slide.classList.remove(SlideDeck.SLIDE_STATES[i]);
-            }
-            slide.classList.add(stateName);
+            slide.dataset.state=stateName;
         }
     }
 
@@ -294,9 +291,7 @@ export default class SlideDeck{
     clear(slideNumber) {
         if (slideNumber > 0 && slideNumber <= this.slides.length) {
             var slide = this.getSlide(slideNumber);
-            for (var i = 0; i < SlideDeck.SLIDE_STATES.length; i++) {
-                slide.classList.remove(SlideDeck.SLIDE_STATES[i]);
-            }
+            slide.dataset.state="";
         }
     }
 
