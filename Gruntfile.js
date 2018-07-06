@@ -90,12 +90,13 @@ module.exports = function(grunt) {
             }
         },
         rollup: {
-            options: {},
+            options: {
+                treeshake: false
+            },
             files: {
-                 'dest':'dist/bundle.js',
-                 'src' : 'js/Presenter.js', // Only one source file is permitted 
-               }
-               
+                'dest': 'dist/bundle.js',
+                'src' : 'js/Presenter.js'
+            }
         },
 
         clean: ["dist/*", "doc/*"]

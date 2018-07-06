@@ -88,13 +88,3 @@ class Presenter{
         return deck;
     }
 }
-
-window.onload = function() {
-    window.presenter = new Presenter();
-    presenter.init({
-            "thumbnail_width": 150,
-            "ticker-position": "right",
-            /*"scale": 0.95*/
-            "scale": 0.75
-        });
-};
