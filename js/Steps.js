@@ -102,53 +102,37 @@ export default class Steps{
      * @method reset
      */
     reset(){
-        var steps = this.deck.getCurrentSlide().querySelectorAll(".step, .step-done");
-        this.groups = [];
+        var steps = [...this.deck.getCurrentSlide().querySelectorAll(".step, .step-done")];
         this.current = -1;
 
-        for(var i=0; i< steps.length; i++){
+        steps.forEach((step) => {
             /*
             <li class="step" data-step-group="group1"></li>
             <li class="step"></li>
             <span class="step" data-step-group="group1"></span>
             */
-            var step = steps[i];
-            var group = step.dataset.stepGroup; //data-step-group = dataset.stepGroup!!!
+            let group = step.dataset.stepGroup; //data-step-group = dataset.stepGroup!!!
             
-            var groupIndex = this.findGroup(group);
-            console.log(groupIndex);
-            if(groupIndex == null){
+            let index = this.groups.findIndex(
+                (element) => element.name === group
+            );
+            if(index === -1){
                 //Make new group if it wasn't found.
-                var groupName = (group != undefined) ? group : null;
-                var new_group = { name : groupName };
-                new_group.steps = [step];
-                this.groups.push(new_group);
+                var newGroup = {
+                    "name" : group || null,
+                    "steps" : [step]
+                };
+                this.groups.push(newGroup);
             }
             else{
-                //Add curent step to existing group.
-                this.groups[groupIndex].steps.push(step);
+                //Add current step to existing group.
+                this.groups[index].steps.push(step);
             }
-        }
+        });
 
         var nSteps = this.groups.length;
         this.deck.ticker.set(nSteps);
         this.setData();
     }
 
-    findGroup(group){
-        var found = false;
-        var searchIndex = 0;
-
-        //Find group.
-        while(!found && searchIndex < this.groups.length){
-            if(this.groups[searchIndex].name == group){
-                found = true;
-                return searchIndex;
-            }
-            else{
-                searchIndex++;
-            }
-        }
-        return null;
-    }
 }
