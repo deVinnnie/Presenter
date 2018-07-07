@@ -25,7 +25,7 @@
     "jquery": "*",
     "lesshat": "^4.1.0",
     "postal": "*",
-    "progress.js": "git://github.com/usablica/progress.js.git"
+    "Progress.js": "git+https://github.com/usablica/progress.js.git"
   },
   "scripts": {
     "serve": "grunt serve",
