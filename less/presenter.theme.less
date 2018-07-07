@@ -4,12 +4,9 @@
 * @author Vincent Ceulemans
 *
 */
-@import "../node_modules/lesshat/lesshat.less";
-
 @media screen{
     .slide{
         opacity: 0;
-        
         
         &[data-state="current"],
         &[data-state="past"], 
@@ -21,24 +18,24 @@
         }
         
         &[data-state="far-past"]{
-            .transform(translate3d(-2600px,0,0));
+            transform: translate3d(-2600px,0,0);
         }
 
         &[data-state="past"]{
-            .transform(translate3d(-1300px,0,0));
+            transform: translate3d(-1300px,0,0);
         }
         
         &[data-state="current"]{
             opacity: 1;
-            .transform(translate3d(0,0,0));
+            transform: translate3d(0,0,0);
         }
 
         &[data-state="future"]{
-            .transform(translate3d(1300px,0,0));
+            transform: translate3d(1300px,0,0);
         }
 
         &[data-state="far-future"]{
-            .transform(translate3d(2600px,0,0));
+            transform: translate3d(2600px,0,0);
         }
     }
 }

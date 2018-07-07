@@ -23,7 +23,6 @@
   "dependencies": {
     "hammerjs": "*",
     "jquery": "*",
-    "lesshat": "^4.1.0",
     "postal": "*",
     "Progress.js": "git+https://github.com/usablica/progress.js.git"
   },
