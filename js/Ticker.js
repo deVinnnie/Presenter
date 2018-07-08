@@ -48,17 +48,8 @@ export default class Ticker{
         var nTicks = this.count();
         var deltaSteps = Math.abs(nSteps - nTicks);
 
-        //Determine wether to increase or decrease in order to match the correct number of ticks.
-        var callback;
-        if(nTicks < nSteps){
-            callback = this.increase;
-        }
-        else if(nTicks > nSteps){
-            callback = this.decrease;
-        }
-        else{
-            return;
-        }
+        //Determine whether to increase or decrease in order to match the correct number of ticks.
+        var callback = ((nSteps - nTicks) > 0) ? this.increase : this.decrease;
 
         for(var i = 0; i < deltaSteps; i++){
             callback.apply(this);
