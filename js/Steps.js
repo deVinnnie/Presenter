@@ -24,6 +24,8 @@ export default class Steps{
         this.deck = deck;
         this.groups = [];
         this.current = -1;
+        this.remaining = 0;
+        this.total = 0;
 
         deck.channel.subscribe("slide-changed", this.reset).context(this);
     }
@@ -56,6 +58,7 @@ export default class Steps{
 
         if(this.current < this.groups.length-1){
             this.current++;
+            this.remaining--;
             this.deck.ticker.decrease();
 
             var currentStepGroup = this.groups[this.current].steps;
@@ -84,6 +87,7 @@ export default class Steps{
             }
 
             this.current--;
+            this.remaining++;
             this.deck.ticker.increase();
 
             if(this.current >= 0){
@@ -130,8 +134,9 @@ export default class Steps{
             }
         });
 
-        var nSteps = this.groups.length;
-        this.deck.ticker.set(nSteps);
+        this.total = this.groups.length;
+        this.remaining = this.groups.length;
+        this.deck.ticker.set(this.total);
         this.setData();
     }
 

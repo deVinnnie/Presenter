@@ -134,7 +134,7 @@ export default class SlideDeck{
      * @method next
      */
     next() {
-        if (this.ticker.count() != 0){
+        if (this.steps.remaining != 0){
             this.steps.nextStep();
         }
         else{
@@ -150,8 +150,7 @@ export default class SlideDeck{
      * @method previous
      */
     previous() {
-        var nSteps = this.getCurrentSlide().querySelectorAll(".step-done").length;
-        if (nSteps >= 1) {
+        if (this.steps.current > 0){
             this.steps.previousStep();
         }
         else {
