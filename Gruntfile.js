@@ -87,6 +87,11 @@ module.exports = function(grunt) {
                 'src' : 'js/Presenter.js'
             }
         },
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
+            }
+        },
 
         clean: ["dist/*", "doc/*"]
     });
@@ -97,11 +102,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-esdoc');
     grunt.loadNpmTasks('grunt-rollup');
 
     //Set Default task.
     grunt.registerTask('default', ['rollup', 'less']);
+    grunt.registerTask('test', ['rollup', 'less', 'karma']);
     
     grunt.registerTask('serve', ['connect', 'watch']);
     grunt.registerTask('doc', 'esdoc');

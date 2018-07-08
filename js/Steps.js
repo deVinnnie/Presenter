@@ -140,4 +140,7 @@ export default class Steps{
         this.setData();
     }
 
+    atBeginning(){
+        return (this.current == -1);
+    }
 }
