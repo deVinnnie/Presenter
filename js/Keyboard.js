@@ -39,9 +39,6 @@ export default class Keyboard{
         });
     }
 
-    /**
-     * @method handle
-     */
     handle(event){
         var channel = postal.channel("slides");
         var keyCode = event.keyCode;

@@ -16,8 +16,6 @@ export default class Notes{
      * Update notes for current slide.
      *
      * Reloads the notes stored within div.notes into the notes display.
-     *
-     * @method refresh
      */
     refresh() {
         var notesDisplay = document.getElementById('notes-display');

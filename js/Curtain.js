@@ -24,7 +24,6 @@ export default class Curtain{
     /**
      * Toggles a blank screen with the given color.
      *
-     * @method toggle
      * @param {String} color Color of the curtain.
      */
     toggle(color) {

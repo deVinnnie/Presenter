@@ -8,7 +8,6 @@ export default class Touch{
     /**
      * Register Touch Events with Hammer.js.
      *
-     * @method enable
      */
     enable(){
         var channel = postal.channel("slides");

@@ -46,7 +46,6 @@ export default class Steps{
     /**
      * Shows the next step on the current slide.
      *
-     * @method nextStep
      */
     nextStep() {
         if(this.current >= 0 && this.current < this.groups.length-1){
@@ -77,7 +76,6 @@ export default class Steps{
     /**
      * Hides the last visible step on the current slide.
      *
-     * @method previousStep
      */
     previousStep() {
         if(this.current >= 0 && this.current < this.groups.length){
@@ -101,10 +99,6 @@ export default class Steps{
         this.deck.channel.publish("step-changed", {type: "previous"});
     }
 
-    /**
-     *
-     * @method reset
-     */
     reset(){
         var steps = [...this.deck.getCurrentSlide().querySelectorAll(".step, .step-done")];
         this.current = -1;

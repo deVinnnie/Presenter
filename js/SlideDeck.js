@@ -64,7 +64,6 @@ export default class SlideDeck{
     /**
      * Update URL in the adressbar to the current position in the slidedeck.
      *
-     * @method updateLocationHash
      */
     updateLocationHash() {
         window.location.hash = "#" + this.currentSlide;
@@ -72,8 +71,6 @@ export default class SlideDeck{
 
     /**
      * Update progressbar.
-     *
-     * @method updateProgressBar
      */
     updateProgressBar(){
         var progressPercentage = this.currentSlide/this.nSlides*100;
@@ -87,7 +84,6 @@ export default class SlideDeck{
     /**
      * Returns the slide object for the given slide number.
      *
-     * @method getSlide
      * @param {int} slideNumber
      * @return {htmlelement} The corresponding slide.
      */
@@ -98,7 +94,6 @@ export default class SlideDeck{
     /**
      * Returns the current slide.
      *
-     * @method getCurrentSlide
      * @return {htmlelement} The current slide.
      */
     getCurrentSlide() {
@@ -108,7 +103,6 @@ export default class SlideDeck{
     /**
      * Returns the sequence number of the given slide.
      *
-     * @method getSlideNmb
      * @return {int} The sequence number. '1' is the first slide.
      */
     getSlideNmb(slide) {
@@ -131,7 +125,6 @@ export default class SlideDeck{
      * Go to the next step if there are remaining steps on the current slide.
      * If no steps remain, then the next slide is shown.
      *
-     * @method next
      */
     next() {
         if (this.steps.remaining != 0){
@@ -147,7 +140,6 @@ export default class SlideDeck{
      *
      * Go to the previous slide if no steps are visible on the current slide, otherwise the previous step is shown.
      *
-     * @method previous
      */
     previous() {
         if (this.steps.current > 0){
@@ -161,7 +153,6 @@ export default class SlideDeck{
     /**
      * Goto to the specified Slide using the Id of the slide.
      *
-     * @method gotoById
      * @param {string} id Id of the slide.
      */
     gotoById(id) {
@@ -183,7 +174,6 @@ export default class SlideDeck{
     /**
      * Goto to the specified Slide using the slide number.
      *
-     * @method gotoByNumber
      * @param {int} n The number/order of the slide in the slidedeck.
      */
     gotoByNumber(n){
@@ -197,8 +187,6 @@ export default class SlideDeck{
 
     /**
      * Go to next slide.
-     *
-     * @method nextSlide
      */
     nextSlide() {
         if (this.currentSlide < this.nSlides) {
@@ -222,8 +210,6 @@ export default class SlideDeck{
 
     /**
      * Go to previous slide.
-     *
-     * @method previousSlide
      */
     previousSlide() {
         if (this.currentSlide > 1) {
@@ -243,8 +229,6 @@ export default class SlideDeck{
 
     /**
      * Automatically start playing the video on the current slide, when present.
-     *
-     * @method autoPlayVideo
      */
     autoPlayVideo() {
         var currentSlide = this.getCurrentSlide();
@@ -255,8 +239,6 @@ export default class SlideDeck{
 
     /**
      * Automatically stop playing the video on the current slide, when present.
-     *
-     * @method autoStopVideo
      */
     autoStopVideo() {
         //If the current slide has a video, stop playing the video.
@@ -269,7 +251,6 @@ export default class SlideDeck{
     /**
      * Update the slide with the given state.
      *
-     * @method updateSlide
      * @param {int} slideNumber between 1 and slides.length
      * @param {String} stateName New state of the slide (one of SLIDE_STATES)
      */
@@ -283,7 +264,6 @@ export default class SlideDeck{
     /**
      * Remove all states from the slide.
      *
-     * @method clear
      * @param {int} slideNumber Number of the Slide
      */
     clear(slideNumber) {
@@ -296,7 +276,6 @@ export default class SlideDeck{
     /**
      * Toggles the visibility of the mouse cursor.
      *
-     * @method togglePointer
      */
     togglePointer() {
         document.body.classList.toggle("cursor-visible");
@@ -316,7 +295,6 @@ export default class SlideDeck{
      * as opposed to aiming for the tiny play button.
      * Adds an eventhandler to each video in the presentation, as such ensuring that they are played when clicked.
      *
-     * @method initVideos
      */
     initVideos() {
         var videos = document.getElementsByTagName('video');

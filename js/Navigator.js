@@ -7,10 +7,6 @@ export default class Navigator{
         this.actions = [];
     }
 
-    /**
-     * @method init
-     * @static
-     */
     init(actions){
         var channel = postal.channel("slides");
         channel.subscribe("navigator", (d) => { this.handle (d);});
@@ -19,20 +15,12 @@ export default class Navigator{
         this.registerAll(actions);
     }
 
-    /**
-     * @method handle
-     * @static
-     */
     handle(data){
         var action = data.action;
         console.log("[Navigator] Handling " + action);
         this.actions[action]();
     }
 
-    /**
-     * @method register
-     * @static
-     */
     register(key, action){
         console.log("[Navigator] " + key + " " + "registered.");
         console.debug("[DEBUG]" + action);

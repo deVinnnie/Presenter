@@ -13,8 +13,6 @@ export default class Overview{
     /**
      * Toggles overview mode of the sliddedeck where
      * all slides are displayed in a table as thumbnails.
-     *
-     * @method toggle
      */
     toggle(){
         if (this.active)
@@ -27,9 +25,6 @@ export default class Overview{
         }
     }
 
-    /**
-     *  @method show
-     */
     show() {
         this.active = true;
         var deck = this.deck;
@@ -78,9 +73,6 @@ export default class Overview{
         currentSlide.scrollIntoView();
     }
 
-    /**
-     * @method hide
-     */
     hide() {
         this.active = false;
         var deck = this.deck;
@@ -112,7 +104,6 @@ export default class Overview{
     /**
      * Event Handler for clicking on a slide in overview-mode.
      *
-     * @method onSelectSlide
      * @param event
      */
     onSelectSlide(event) {

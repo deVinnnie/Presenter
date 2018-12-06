@@ -43,8 +43,6 @@ export default class SlideScaler{
     /**
      * Resizes slidedeck when window is resized.
      *
-     * @method windowResizedHandler
-     *
      * Generates this kind of CSS-code:
      * @media screen{
      *       .farPastSlide{

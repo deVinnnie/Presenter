@@ -16,8 +16,6 @@ export default class SyncClient{
      * In monitor mode commands are received as well as sent. (Bidirectional)
      * The monitor displays two slides side by side, and notes are visible by default.
      *
-     * @method monitor
-     * @static
      */
     monitor() {
         var connection = this.prompt();
@@ -46,9 +44,6 @@ export default class SyncClient{
      * Listens to incomming commands via WebSockets and updates this instance accordingly.
      * Input from the current instance is ignored.
      * Only commands from the external instance are executed.
-     *
-     * @method listen
-     * @static
      */
     listen() {
         var connection = this.prompt();
@@ -73,8 +68,6 @@ export default class SyncClient{
      * Listens to incomming commands via WebSockets and updates this instance accordingly.
      * Input from the current instance is accepted.
      *
-     * @method connect
-     * @static
      */
     connect() {
         var connection = this.prompt();

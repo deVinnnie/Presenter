@@ -16,7 +16,6 @@ class Presenter{
     /**
      * Starts the presentation.
      *
-     * @method init
      * @param {object} config Configuration object
      */
     init(config){
@@ -62,7 +61,6 @@ class Presenter{
     /**
      * Create and initialize a new deck object
      *
-     * @method createDeck
      */
     createDeck(){
         //Add the "slide" class to each section.

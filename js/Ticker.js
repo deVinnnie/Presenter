@@ -29,7 +29,6 @@ export default class Ticker{
     /**
      * Removes all ticks.
      *
-     * @method flush
      */
     flush(){
         var ticks = document.querySelector("#ticks");
@@ -41,7 +40,6 @@ export default class Ticker{
     /**
      * Renew the ticker count so that it matches the current number of steps remaining.
      *
-     * @method renew
      */
     renew() {
         var nSteps = this.deck.getCurrentSlide().querySelectorAll(".step").length;
@@ -59,7 +57,6 @@ export default class Ticker{
     /**
      * Set Ticker to a specific count.
      *
-     * @method set
      */
     set(nSteps) {
         this.flush();
@@ -71,7 +68,6 @@ export default class Ticker{
     /**
      * Decreases the ticker-count by one tick.
      *
-     * @method decrease
      */
     decrease() {
         var lastChild = document.querySelector("#ticks li:last-child");
@@ -81,7 +77,6 @@ export default class Ticker{
     /**
      * Increases the ticker-count by one tick.
      *
-     * @method increase
      */
     increase() {
         $("#ticks").append(
