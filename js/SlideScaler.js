@@ -2,9 +2,8 @@ import SlideDeck from './SlideDeck.js';
 
 export default class SlideScaler{
     
-    constructor(deck, settings){
+    constructor(deck){
         this.deck = deck;
-        this.settings = settings;
         this.SLIDE_TRANSFORMS = {};
         
         this.init();
@@ -93,8 +92,8 @@ export default class SlideScaler{
         var scale = Math.min(window.innerHeight / deck.slideHeight, window.innerWidth / deck.slideWidth);
 
         //Set a prescale if a "scale" parameter was included in the config object.
-        if(this.settings.hasOwnProperty("scale")){
-            scale *= this.settings.scale;
+        if(this.deck.settings.hasOwnProperty("scale")){
+            scale *= this.deck.settings.scale;
         }
 
         //The offset ensures that the slide is always in the center of the screen.

@@ -39,7 +39,7 @@ class Presenter{
         deck.keyboard = new Keyboard();
         deck.mouse = new Mouse();
         deck.syncClient = new SyncClient(deck);
-        this.slideScaler = new SlideScaler(deck, this.settings);
+        this.slideScaler = new SlideScaler(deck);
         
         //Hook up eventhandlers.
         window.addEventListener("resize", this.slideScaler.scale.bind(this.slideScaler));
